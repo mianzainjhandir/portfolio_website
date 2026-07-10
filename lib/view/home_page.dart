@@ -20,6 +20,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: widget._globalKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
@@ -44,7 +45,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               ): Topbar(scrollController: widget._scrollController)
         ],
       ),
-      endDrawer: Responsive.isMobile(context)? MyDrawer(): null,
+      endDrawer: Responsive.isMobile(context) ? MyDrawer(scrollController: widget._scrollController): null,
     );
   }
 }

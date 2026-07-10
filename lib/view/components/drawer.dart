@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:portfolio_project/utills/colors.dart';
+import 'package:portfolio_project/view/components/topBar.dart';
 
 class MyDrawer extends StatelessWidget {
   final ScrollController scrollController;
@@ -12,11 +13,16 @@ class MyDrawer extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.pop(context);
+            },
             icon: Icon(
               Icons.close,color: textColor,
             ),
         ),
+      ),
+      body: Center(
+        child: Topbar(scrollController: scrollController),
       ),
     );
   }
