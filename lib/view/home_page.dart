@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_project/responsive/responsive.dart';
 import 'package:portfolio_project/utills/colors.dart';
+import 'package:portfolio_project/view/components/profile_and_intro.dart';
 import 'package:portfolio_project/view/components/topBar.dart';
 
 import 'components/drawer.dart';
@@ -48,7 +49,14 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
       endDrawer: Responsive.isMobile(context) ? MyDrawer(scrollController: widget._scrollController): null,
       body: SafeArea(
           child: Stack(children: [
-
+            SingleChildScrollView(
+              controller: widget._scrollController,
+              child: Column(
+                children: [
+                  ProfileAndIntro()
+                ],
+              ),
+            )
           ],)
       ),
     );
