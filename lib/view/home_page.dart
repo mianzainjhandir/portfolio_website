@@ -46,6 +46,11 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
         ],
       ),
       endDrawer: Responsive.isMobile(context) ? MyDrawer(scrollController: widget._scrollController): null,
+      body: SafeArea(
+          child: Stack(children: [
+
+          ],)
+      ),
     );
   }
 }
