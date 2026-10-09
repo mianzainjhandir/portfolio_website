@@ -17,7 +17,7 @@ class _HomeViewState extends State<HomeView> {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("data"),
+          
         ],
       ),
     );
