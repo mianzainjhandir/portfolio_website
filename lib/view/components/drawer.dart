@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:portfolio_project/utills/colors.dart';
-import 'package:portfolio_project/view/components/topBar.dart';
 
 class MyDrawer extends StatelessWidget {
   final ScrollController scrollController;
@@ -21,9 +20,7 @@ class MyDrawer extends StatelessWidget {
             ),
         ),
       ),
-      body: Center(
-        child: Topbar(scrollController: scrollController),
-      ),
+
     );
   }
 }

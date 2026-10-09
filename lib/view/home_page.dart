@@ -1,9 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:portfolio_project/responsive/responsive.dart';
-import 'package:portfolio_project/utills/colors.dart';
-import 'package:portfolio_project/view/components/profile_and_intro.dart';
-import 'package:portfolio_project/view/components/topBar.dart';
 
 import 'components/drawer.dart';
 
