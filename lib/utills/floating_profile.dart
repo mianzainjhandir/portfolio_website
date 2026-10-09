@@ -129,7 +129,7 @@ class _FloatingProfileState extends State<FloatingProfile>
               ),
               child: ClipOval(
                 child: Image.asset(
-                  'assets/images/profile.png',
+                  'assets/images/profile_pic.png',
                   fit: BoxFit.cover,
                 ),
               ),

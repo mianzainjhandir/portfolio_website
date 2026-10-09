@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../utills/floating_profile.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -17,7 +19,7 @@ class _HomeViewState extends State<HomeView> {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
+          FloatingProfile(),
         ],
       ),
     );
