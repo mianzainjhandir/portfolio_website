@@ -19,7 +19,13 @@ class _HomeViewState extends State<HomeView> {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FloatingProfile(),
+
+          Row(
+            children: [
+
+              FloatingProfile(),
+            ],
+          ),
         ],
       ),
     );
