@@ -119,7 +119,7 @@ class AboutView extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        "I am a passionate Flutter Developer from Pakistan, specializing in creating responsive mobile and web applications. I work with Firebase, REST APIs, real-time chat, authentication, and Bluetooth thermal printing solutions. My goal is to build modern and polished apps with professional user interfaces and smooth functionality.",
+                        "I am a passionate Flutter Developer from Pakistan, specializing in creating responsive mobile and web applications. I work with Firebase, REST APIs, Google Maps & API Key integrations, AI-powered solutions, real-time chat, authentication, and Bluetooth thermal printing solutions. My goal is to build modern and polished apps with professional user interfaces and smooth functionality.",
                         style: GoogleFonts.poppins(
                           fontSize: isMobile ? 13.5 : 15,
                           height: 1.6,
@@ -152,6 +152,24 @@ class AboutView extends StatelessWidget {
                           label: "REST APIs",
                           bgColor: const Color(0xFFE8F5E9),
                           textColor: const Color(0xFF4CAF50),
+                        ),
+                        _buildTechChip(
+                          icon: Icons.map_rounded,
+                          label: "Google Maps",
+                          bgColor: const Color(0xFFE0F2F1),
+                          textColor: const Color(0xFF00897B),
+                        ),
+                        _buildTechChip(
+                          icon: Icons.key_rounded,
+                          label: "API Keys",
+                          bgColor: const Color(0xFFE1F5FE),
+                          textColor: const Color(0xFF0288D1),
+                        ),
+                        _buildTechChip(
+                          icon: Icons.auto_awesome_rounded,
+                          label: "AI Master",
+                          bgColor: const Color(0xFFEDE7F6),
+                          textColor: const Color(0xFF5E35B1),
                         ),
                         _buildTechChip(
                           icon: Icons.brush_rounded,
