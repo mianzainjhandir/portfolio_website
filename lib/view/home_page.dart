@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:portfolio_project/responsive/responsive.dart';
 
 import 'components/drawer.dart';
+import 'home_view.dart';
 
 class DeveloperPortfolio extends StatefulWidget {
    DeveloperPortfolio({super.key});
@@ -27,7 +28,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               controller: widget._scrollController,
               child: Column(
                 children: [
-
+                  HomeView(),
                 ],
               ),
             )
