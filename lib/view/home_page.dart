@@ -23,29 +23,6 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
     return Scaffold(
       key: widget._globalKey,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-            "Zain Khaliq",
-          style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.w900,
-            color: textColor
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 3,
-        toolbarHeight: 70,
-        actions: [
-          Responsive.isMobile(context)?
-              Padding(padding: EdgeInsets.only(right: 13), child:   IconButton(
-                  onPressed: (){
-                    widget._globalKey.currentState?.openEndDrawer();
-                  },
-                  icon: Icon(Icons.menu,color: textColor,size: 35,)
-              )
-              ): Topbar(scrollController: widget._scrollController)
-        ],
-      ),
       endDrawer: Responsive.isMobile(context) ? MyDrawer(scrollController: widget._scrollController): null,
       body: SafeArea(
           child: Stack(children: [
@@ -53,7 +30,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               controller: widget._scrollController,
               child: Column(
                 children: [
-                  ProfileAndIntro()
+
                 ],
               ),
             )
