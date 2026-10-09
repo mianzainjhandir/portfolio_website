@@ -148,7 +148,9 @@ class _HomeViewState extends State<HomeView> {
           alignment: wrapAlignment,
           children: [
             _buildSkillPill("WEB DEVELOPER"),
+            _buildSkillPill("MOBILE DEVELOPER"),
             _buildSkillPill("UI/UX DESIGNER"),
+            _buildSkillPill("API INTEGRATION"),
             _buildSkillPill("SOFTWARE ENGINEER"),
           ],
         ),
