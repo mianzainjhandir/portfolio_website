@@ -4,6 +4,7 @@ import 'package:portfolio_project/responsive/responsive.dart';
 
 import 'components/drawer.dart';
 import 'home_view.dart';
+import 'about_view.dart';
 
 class DeveloperPortfolio extends StatefulWidget {
    DeveloperPortfolio({super.key});
@@ -29,6 +30,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               child: Column(
                 children: [
                   HomeView(),
+                  AboutView(),
                 ],
               ),
             )
