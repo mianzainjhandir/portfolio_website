@@ -34,23 +34,28 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = Responsive.isMobile(context);
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFFF4F5F7),
+      constraints: BoxConstraints(
+        minHeight: screenHeight,
+      ),
+      color: const Color(0xFFF4F5F7), // First screen viewport is light grey
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20.0 : 80.0,
-        vertical: isMobile ? 30.0 : 60.0,
+        vertical: isMobile ? 40.0 : 60.0,
       ),
       child: Center(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 1200),
           child: isMobile
               ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const FloatingProfile(),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 30),
                     _buildTextSection(isMobile: true),
                   ],
                 )
@@ -78,10 +83,12 @@ class _HomeViewState extends State<HomeView> {
 
     return Column(
       crossAxisAlignment: alignment,
+      mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         // Top Greeting: 👋 HI THERE!
         Row(
+          mainAxisAlignment: isMobile ? MainAxisAlignment.center : MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
@@ -141,7 +148,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         const SizedBox(height: 24),
 
-        // Skill Badges / Pills: WEB DEVELOPER | UI/UX DESIGNER | SOFTWARE ENGINEER
+        // Skill Badges / Pills
         Wrap(
           spacing: 10,
           runSpacing: 10,
