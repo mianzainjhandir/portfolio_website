@@ -16,97 +16,77 @@ class _ProjectsViewState extends State<ProjectsView> {
   bool _isExpanded = false;
   List<Map<String, dynamic>> _projects = [];
 
-  // Fallback / Initial project list based on Zain's GitHub repos
+  // Initial / Fallback project list matching Zain's GitHub repos
   final List<Map<String, dynamic>> _defaultProjects = [
     {
       "name": "Doctor_Appoinment",
       "displayName": "Doctor Appointment & AI Health App",
       "description":
           "AI-powered healthcare platform for finding doctors, booking appointments, managing medical documents, and getting AI-assisted health insights.",
-      "language": "Flutter / AI",
       "url": "https://github.com/mianzainjhandir/Doctor_Appoinment",
-      "tags": ["Flutter", "AI", "Firebase"],
     },
     {
       "name": "Streamly_App",
       "displayName": "Streamly - Video Streaming Platform",
       "description":
           "A full-stack video streaming platform built with Flutter & Firebase — upload, watch, and interact with videos on the go.",
-      "language": "Flutter / Firebase",
       "url": "https://github.com/mianzainjhandir/Streamly_App",
-      "tags": ["Flutter", "Firebase", "Streaming"],
     },
     {
       "name": "DocuMind",
       "displayName": "DocuMind - AI Document & Knowledge App",
       "description":
           "DocuMind is an AI-powered document management and knowledge base mobile app built for smart file search, RAG-based chat, and team collaboration.",
-      "language": "Flutter / AI",
       "url": "https://github.com/mianzainjhandir/DocuMind",
-      "tags": ["Flutter", "AI / RAG", "Knowledge Base"],
     },
     {
       "name": "Delivery_Boy_App",
       "displayName": "Delivery Boy Logistics App",
       "description":
           "Practice based logistics & delivery application for order tracking, live status updates, and route navigation.",
-      "language": "Flutter / Maps",
       "url": "https://github.com/mianzainjhandir/Delivery_Boy_App",
-      "tags": ["Flutter", "Maps", "Logistics"],
     },
     {
       "name": "chatbot_project",
       "displayName": "AI Chatbot & Assistant App",
       "description":
           "Smart AI Chatbot project integrated with Gemini & OpenAI APIs for conversational AI, natural language responses, and smart assistance.",
-      "language": "Flutter / Gemini AI",
       "url": "https://github.com/mianzainjhandir/chatbot_project",
-      "tags": ["Flutter", "Gemini AI", "OpenAI"],
     },
     {
       "name": "portfolio_website",
       "displayName": "Modern Flutter Portfolio Website",
       "description":
           "🚀 Modern Flutter Portfolio | Responsive UI | Smooth Animations | Clean Architecture | Projects | Skills | Built with Flutter & Dart.",
-      "language": "Flutter Web",
       "url": "https://github.com/mianzainjhandir/portfolio_website",
-      "tags": ["Flutter Web", "Dart", "Portfolio"],
     },
     {
       "name": "E_Commerce_App",
       "displayName": "E-Commerce Shopping Application",
       "description":
           "Full-featured mobile e-commerce platform with product catalogs, shopping cart, checkout system, and Firebase integration.",
-      "language": "Flutter / Firebase",
       "url": "https://github.com/mianzainjhandir/E_Commerce_App",
-      "tags": ["Flutter", "Firebase", "E-Commerce"],
     },
     {
       "name": "Expense_Tracker_App",
       "displayName": "Smart Expense Tracker App",
       "description":
           "Personal finance and budget management app built with Flutter & GetX featuring expense analytics, categories, and report charts.",
-      "language": "Flutter / GetX",
       "url": "https://github.com/mianzainjhandir/Expense_Tracker_App",
-      "tags": ["Flutter", "GetX", "Finance"],
     },
     {
       "name": "Weather_App",
       "displayName": "Real-Time Weather Forecast App",
       "description":
           "Live weather forecasting mobile app utilizing REST APIs, location services, dynamic weather condition themes, and 7-day forecasts.",
-      "language": "Flutter / REST API",
       "url": "https://github.com/mianzainjhandir/Weather_App",
-      "tags": ["Flutter", "REST API", "Weather"],
     },
     {
       "name": "Chat_App",
       "displayName": "Real-Time Chat & Messaging App",
       "description":
           "Real-time chat application with Firebase Firestore, push notifications, user authentication, and media attachment sharing.",
-      "language": "Flutter / Firebase",
       "url": "https://github.com/mianzainjhandir/Chat_App",
-      "tags": ["Flutter", "Firebase", "Chat"],
     },
   ];
 
@@ -135,18 +115,15 @@ class _ProjectsViewState extends State<ProjectsView> {
             final String rawName = repo['name'] ?? '';
             final String name = rawName.replaceAll('_', ' ');
             final String desc = repo['description'] ??
-                'Flutter application project developed by Zain.';
+                'A Flutter project showcasing modern development practices and clean architecture.';
             final String url = repo['html_url'] ??
                 'https://github.com/mianzainjhandir/$rawName';
-            final String lang = repo['language'] ?? 'Dart';
 
             fetched.add({
               "name": rawName,
               "displayName": name,
               "description": desc,
-              "language": lang,
               "url": url,
-              "tags": [lang, "GitHub"],
             });
           }
 
@@ -249,28 +226,35 @@ class _ProjectsViewState extends State<ProjectsView> {
               ),
               const SizedBox(height: 36),
 
-              // Projects Grid
-              isMobile
-                  ? Column(
-                      children: visibleProjects
-                          .map((p) => Padding(
-                                padding: const EdgeInsets.only(bottom: 24.0),
-                                child: _buildProjectCard(p, isMobile),
-                              ))
-                          .toList(),
-                    )
-                  : Wrap(
-                      spacing: 24,
-                      runSpacing: 24,
-                      children: visibleProjects
-                          .map((p) => SizedBox(
-                                width: 510,
-                                child: _buildProjectCard(p, isMobile),
-                              ))
-                          .toList(),
-                    ),
+              // Projects Grid (3 Columns on Desktop, 1 on Mobile)
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final double availableWidth = constraints.maxWidth;
+                  int crossAxisCount = 3;
+                  if (isMobile || availableWidth < 650) {
+                    crossAxisCount = 1;
+                  } else if (availableWidth < 950) {
+                    crossAxisCount = 2;
+                  }
 
-              const SizedBox(height: 36),
+                  final double cardWidth =
+                      (availableWidth - ((crossAxisCount - 1) * 24)) /
+                          crossAxisCount;
+
+                  return Wrap(
+                    spacing: 24,
+                    runSpacing: 24,
+                    children: visibleProjects.map((p) {
+                      return SizedBox(
+                        width: cardWidth,
+                        child: _buildProjectCard(p, isMobile),
+                      );
+                    }).toList(),
+                  );
+                },
+              ),
+
+              const SizedBox(height: 40),
 
               // See More / View All Repositories Button
               if (_projects.length > 8)
@@ -326,137 +310,136 @@ class _ProjectsViewState extends State<ProjectsView> {
   }
 
   Widget _buildProjectCard(Map<String, dynamic> project, bool isMobile) {
-    final List<String> tags = List<String>.from(project["tags"] ?? ["Flutter"]);
+    final String displayName =
+        project["displayName"] ?? project["name"] ?? "Flutter App";
+    final String description = project["description"] ?? "";
+    final String url = project["url"] ?? "https://github.com/mianzainjhandir";
 
     return Container(
-      padding: EdgeInsets.all(isMobile ? 20.0 : 24.0),
+      height: 350,
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFEEEEEE), width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withValues(alpha: 0.12),
             blurRadius: 18,
             spreadRadius: 1,
             offset: const Offset(0, 6),
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Row: Folder Icon & GitHub Button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFF4E5),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.folder_special_rounded,
-                  color: Color(0xFFFFAE34),
-                  size: 24,
-                ),
-              ),
-              InkWell(
-                onTap: () => _launchUrl(project["url"]),
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF4F5F7),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.code_rounded,
-                    color: Color(0xFF181818),
-                    size: 20,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Stack(
+          children: [
+            // Dark Octocat Watermark Background
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: const Color(0xFF1B1B1E),
+              child: Center(
+                child: Opacity(
+                  opacity: 0.85,
+                  child: Container(
+                    width: 210,
+                    height: 210,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFF26262B),
+                    ),
+                    child: const Icon(
+                      Icons.code_rounded,
+                      size: 110,
+                      color: Color(0xFF121214),
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-
-          // Project Title
-          Text(
-            project["displayName"] ?? project["name"],
-            style: GoogleFonts.poppins(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF181818),
             ),
-          ),
-          const SizedBox(height: 8),
 
-          // Project Description
-          Text(
-            project["description"],
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.poppins(
-              fontSize: 13.5,
-              height: 1.5,
-              color: const Color(0xFF666666),
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Tech Tags & Link Button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Wrap(
-                spacing: 8,
-                children: tags.take(2).map((tag) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF4F5F7),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      tag,
-                      style: GoogleFonts.poppins(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF555555),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              InkWell(
-                onTap: () => _launchUrl(project["url"]),
-                child: Row(
-                  children: [
-                    Text(
-                      "GitHub",
-                      style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFFFFAE34),
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.arrow_forward_rounded,
-                      size: 16,
-                      color: Color(0xFFFFAE34),
-                    ),
+            // Black Gradient Overlay at bottom for clear text visibility
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.35),
+                    Colors.black.withValues(alpha: 0.95),
                   ],
+                  stops: const [0.35, 0.65, 1.0],
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+
+            // Content at Bottom of Card
+            Positioned(
+              left: 20,
+              right: 20,
+              bottom: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    displayName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontSize: 12.5,
+                      height: 1.4,
+                      color: Colors.white.withValues(alpha: 0.8),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Bottom Action Buttons
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () => _launchUrl(url),
+                        borderRadius: BorderRadius.circular(8),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Icon(
+                            Icons.code_rounded,
+                            color: Colors.white,
+                            size: 22,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      InkWell(
+                        onTap: () => _launchUrl(url),
+                        borderRadius: BorderRadius.circular(8),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Icon(
+                            Icons.open_in_new_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
