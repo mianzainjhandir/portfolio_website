@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_project/responsive/responsive.dart';
 
 import 'components/drawer.dart';
@@ -139,6 +140,9 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               ),
             ),
 
+            // Left Navigation Drawer Panel (Appears when scrolled down from Home)
+            _buildLeftDrawer(isMobile),
+
             // Vertical Floating Side Navigation Bar
             Positioned(
               right: isMobile ? 12 : 24,
@@ -146,6 +150,155 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               bottom: 0,
               child: Center(
                 child: _buildSideNavBar(isMobile),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLeftDrawer(bool isMobile) {
+    final navItems = [
+      {"icon": Icons.home_rounded, "index": 0, "label": "HOME"},
+      {"icon": Icons.person_rounded, "index": 1, "label": "ABOUT ME"},
+      {"icon": Icons.code_rounded, "index": 2, "label": "SKILLS & EXPERIENCE"},
+      {"icon": Icons.folder_outlined, "index": 3, "label": "PROJECTS"},
+      {"icon": Icons.email_outlined, "index": 4, "label": "CONTACT"},
+    ];
+
+    final bool showLeftBar = !isMobile && _activeSectionIndex > 0;
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+      left: showLeftBar ? 0 : -280,
+      top: 0,
+      bottom: 0,
+      child: Container(
+        width: 240,
+        color: const Color(0xFFF4F5F7),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+
+            // Top Profile Avatar
+            Container(
+              width: 90,
+              height: 90,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                border: Border.all(
+                  color: const Color(0xFFFFAE34),
+                  width: 3.0,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/profile_pic.png',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.person,
+                      size: 50,
+                      color: Colors.grey,
+                    );
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
+
+            // Nav Menu Items
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: navItems.map((item) {
+                  final int idx = item["index"] as int;
+                  final bool isSelected = _activeSectionIndex == idx;
+                  final IconData icon = item["icon"] as IconData;
+                  final String label = item["label"] as String;
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    child: InkWell(
+                      onTap: () => _scrollToSection(idx),
+                      borderRadius: BorderRadius.circular(14),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 12.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? const Color(0xFFFFAE34)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(14),
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: const Color(0xFFFFAE34)
+                                        .withValues(alpha: 0.4),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ]
+                              : [],
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              icon,
+                              size: 20,
+                              color: isSelected
+                                  ? Colors.white
+                                  : const Color(0xFF222222),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                label,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : const Color(0xFF222222),
+                                  letterSpacing: 0.8,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+
+            // Bottom Moon Icon
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
+                child: Icon(
+                  Icons.nights_stay_rounded,
+                  color: const Color(0xFF181818),
+                  size: 24,
+                ),
               ),
             ),
           ],
