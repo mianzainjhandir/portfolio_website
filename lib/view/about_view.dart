@@ -232,10 +232,165 @@ class AboutView extends StatelessWidget {
                   ],
                 ),
               ),
+
+              const SizedBox(height: 50),
+
+              // My Services Section
+              _buildServicesSection(isMobile),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildServicesSection(bool isMobile) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header Row
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFFFFAE34),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFFFAE34).withValues(alpha: 0.35),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.work_rounded,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "My Services",
+                  style: GoogleFonts.poppins(
+                    fontSize: isMobile ? 24 : 28,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF181818),
+                  ),
+                ),
+                Text(
+                  "Transforming Ideas into Digital Reality",
+                  style: GoogleFonts.poppins(
+                    fontSize: 13.5,
+                    fontStyle: FontStyle.italic,
+                    color: const Color(0xFF777777),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 36),
+
+        // Services Grid
+        isMobile
+            ? Column(
+                children: [
+                  _buildServiceItem(
+                    icon: Icons.smartphone_rounded,
+                    title: "Flutter Development",
+                    description:
+                        "Building high-performance cross-platform apps for Android, iOS, and Web with modern Flutter architecture.",
+                  ),
+                  const SizedBox(height: 28),
+                  _buildServiceItem(
+                    icon: Icons.cloud_rounded,
+                    title: "Firebase Integration",
+                    description:
+                        "Seamless integration of real-time databases, authentication, cloud storage, and push notifications.",
+                  ),
+                  const SizedBox(height: 28),
+                  _buildServiceItem(
+                    icon: Icons.brush_rounded,
+                    title: "UI/UX Design",
+                    description:
+                        "Creating stunning, responsive interfaces with smooth animations and professional design principles.",
+                  ),
+                ],
+              )
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _buildServiceItem(
+                      icon: Icons.smartphone_rounded,
+                      title: "Flutter Development",
+                      description:
+                          "Building high-performance cross-platform apps for Android, iOS, and Web with modern Flutter architecture.",
+                    ),
+                  ),
+                  const SizedBox(width: 32),
+                  Expanded(
+                    child: _buildServiceItem(
+                      icon: Icons.cloud_rounded,
+                      title: "Firebase Integration",
+                      description:
+                          "Seamless integration of real-time databases, authentication, cloud storage, and push notifications.",
+                    ),
+                  ),
+                  const SizedBox(width: 32),
+                  Expanded(
+                    child: _buildServiceItem(
+                      icon: Icons.brush_rounded,
+                      title: "UI/UX Design",
+                      description:
+                          "Creating stunning, responsive interfaces with smooth animations and professional design principles.",
+                    ),
+                  ),
+                ],
+              ),
+      ],
+    );
+  }
+
+  Widget _buildServiceItem({
+    required IconData icon,
+    required String title,
+    required String description,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          size: 36,
+          color: const Color(0xFFFFAE34),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          title,
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF181818),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          description,
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            height: 1.5,
+            color: const Color(0xFF666666),
+          ),
+        ),
+      ],
     );
   }
 
