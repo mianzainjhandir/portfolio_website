@@ -24,32 +24,31 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   @override
   void initState() {
     super.initState();
-    widget._scrollController.addListener(_onScroll);
+    widget._scrollController.addListener(_updateActiveSection);
   }
 
   @override
   void dispose() {
-    widget._scrollController.removeListener(_onScroll);
+    widget._scrollController.removeListener(_updateActiveSection);
     super.dispose();
   }
 
-  void _onScroll() {
+  bool _handleScrollNotification(ScrollNotification notification) {
+    _updateActiveSection();
+    return false;
+  }
+
+  void _updateActiveSection() {
     if (!widget._scrollController.hasClients) return;
     final double offset = widget._scrollController.offset;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
-    double aboutThreshold = MediaQuery.of(context).size.height * 0.4;
-    final RenderBox? renderBox =
-        _aboutKey.currentContext?.findRenderObject() as RenderBox?;
-    if (renderBox != null) {
-      final position = renderBox.localToGlobal(Offset.zero);
-      aboutThreshold = widget._scrollController.offset + position.dy - 250;
-    }
-
+    // Calculate active section index based on scroll position
     int newIndex = 0;
-    if (offset >= aboutThreshold) {
-      newIndex = 1; // About section
+    if (offset >= screenHeight * 0.35) {
+      newIndex = 1; // About Section
     } else {
-      newIndex = 0; // Home section
+      newIndex = 0; // Home Section
     }
 
     if (newIndex != _activeSectionIndex) {
@@ -98,13 +97,16 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              controller: widget._scrollController,
-              child: Column(
-                children: [
-                  HomeView(key: _homeKey),
-                  AboutView(key: _aboutKey),
-                ],
+            NotificationListener<ScrollNotification>(
+              onNotification: _handleScrollNotification,
+              child: SingleChildScrollView(
+                controller: widget._scrollController,
+                child: Column(
+                  children: [
+                    HomeView(key: _homeKey),
+                    AboutView(key: _aboutKey),
+                  ],
+                ),
               ),
             ),
 
