@@ -11,7 +11,10 @@ class SkillsView extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFFF4F5F7),
+      decoration: const BoxDecoration(
+        color: Color(0xFFF4F5F7),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+      ),
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20.0 : 80.0,
         vertical: isMobile ? 40.0 : 60.0,
@@ -347,10 +350,10 @@ class SkillsView extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.06),
-                blurRadius: 25,
-                spreadRadius: 2,
-                offset: const Offset(0, 8),
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 20,
+                spreadRadius: 1,
+                offset: const Offset(0, 6),
               ),
             ],
           ),
@@ -470,10 +473,10 @@ class SkillsView extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.06),
-                blurRadius: 25,
-                spreadRadius: 2,
-                offset: const Offset(0, 8),
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 20,
+                spreadRadius: 1,
+                offset: const Offset(0, 6),
               ),
             ],
           ),
