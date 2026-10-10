@@ -143,7 +143,10 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                     children: [
                       HomeView(key: _homeKey),
                       AboutView(key: _aboutKey),
-                      SkillsView(key: _skillsKey),
+                      SkillsView(
+                        key: _skillsKey,
+                        isVisible: _activeSectionIndex >= 2,
+                      ),
                     ],
                   ),
                 ),

@@ -3,7 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import '../responsive/responsive.dart';
 
 class SkillsView extends StatelessWidget {
-  const SkillsView({super.key});
+  final bool isVisible;
+
+  const SkillsView({
+    super.key,
+    this.isVisible = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -504,77 +509,99 @@ class SkillsView extends StatelessWidget {
     required double progress,
     required Color color,
   }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          width: 72,
-          height: 72,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 72,
-                height: 72,
-                child: CircularProgressIndicator(
-                  value: progress,
-                  strokeWidth: 7,
-                  backgroundColor: const Color(0xFFEEEEEE),
-                  valueColor: AlwaysStoppedAnimation<Color>(color),
-                  strokeCap: StrokeCap.round,
-                ),
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(
+        begin: 0.0,
+        end: isVisible ? progress : 0.0,
+      ),
+      duration: const Duration(milliseconds: 1500),
+      curve: Curves.easeOutCubic,
+      builder: (context, animatedValue, child) {
+        final int currentPercentage = (animatedValue * 100).toInt();
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 72,
+              height: 72,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    width: 72,
+                    height: 72,
+                    child: CircularProgressIndicator(
+                      value: animatedValue,
+                      strokeWidth: 7,
+                      backgroundColor: const Color(0xFFEEEEEE),
+                      valueColor: AlwaysStoppedAnimation<Color>(color),
+                      strokeCap: StrokeCap.round,
+                    ),
+                  ),
+                  Text(
+                    "$currentPercentage%",
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF2E7D32),
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                percentageText,
-                style: GoogleFonts.poppins(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF2E7D32),
-                ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              label,
+              style: GoogleFonts.poppins(
+                fontSize: 13.5,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF333333),
               ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          label,
-          style: GoogleFonts.poppins(
-            fontSize: 13.5,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF333333),
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 
   Widget _buildSoftSkillProgress(String name, double progress) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            name,
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF333333),
-            ),
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 8,
-              backgroundColor: const Color(0xFFECEFF1),
-              valueColor:
-                  const AlwaysStoppedAnimation<Color>(Color(0xFF2196F3)),
-            ),
-          ),
-        ],
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(
+        begin: 0.0,
+        end: isVisible ? progress : 0.0,
       ),
+      duration: const Duration(milliseconds: 1500),
+      curve: Curves.easeOutCubic,
+      builder: (context, animatedValue, child) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF333333),
+                ),
+              ),
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: LinearProgressIndicator(
+                  value: animatedValue,
+                  minHeight: 8,
+                  backgroundColor: const Color(0xFFECEFF1),
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(Color(0xFF2196F3)),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
