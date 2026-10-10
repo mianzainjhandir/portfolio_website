@@ -245,6 +245,45 @@ class AboutView extends StatelessWidget {
   }
 
   Widget _buildServicesSection(bool isMobile) {
+    final services = [
+      {
+        "icon": Icons.smartphone_rounded,
+        "title": "Flutter Development",
+        "description":
+            "Building high-performance cross-platform apps for Android, iOS, and Web with modern Flutter architecture.",
+      },
+      {
+        "icon": Icons.cloud_rounded,
+        "title": "Firebase Integration",
+        "description":
+            "Seamless integration of real-time databases, authentication, cloud storage, and push notifications.",
+      },
+      {
+        "icon": Icons.brush_rounded,
+        "title": "UI/UX Design",
+        "description":
+            "Creating stunning, responsive interfaces with smooth animations and professional design principles.",
+      },
+      {
+        "icon": Icons.map_rounded,
+        "title": "Google Maps & Location",
+        "description":
+            "Integrating interactive maps, geolocation tracking, route drawing, and location-based services.",
+      },
+      {
+        "icon": Icons.code_rounded,
+        "title": "REST APIs & WebSockets",
+        "description":
+            "Connecting apps to complex RESTful APIs, secure authentication, and real-time WebSocket connections.",
+      },
+      {
+        "icon": Icons.auto_awesome_rounded,
+        "title": "AI & Hardware Integration",
+        "description":
+            "Embedding AI models (ChatGPT/Gemini) and connecting with Bluetooth thermal printers & POS hardware.",
+      },
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -299,62 +338,81 @@ class AboutView extends StatelessWidget {
         const SizedBox(height: 36),
 
         // Services Grid
-        isMobile
-            ? Column(
-                children: [
-                  _buildServiceItem(
-                    icon: Icons.smartphone_rounded,
-                    title: "Flutter Development",
-                    description:
-                        "Building high-performance cross-platform apps for Android, iOS, and Web with modern Flutter architecture.",
-                  ),
-                  const SizedBox(height: 28),
-                  _buildServiceItem(
-                    icon: Icons.cloud_rounded,
-                    title: "Firebase Integration",
-                    description:
-                        "Seamless integration of real-time databases, authentication, cloud storage, and push notifications.",
-                  ),
-                  const SizedBox(height: 28),
-                  _buildServiceItem(
-                    icon: Icons.brush_rounded,
-                    title: "UI/UX Design",
-                    description:
-                        "Creating stunning, responsive interfaces with smooth animations and professional design principles.",
-                  ),
-                ],
-              )
-            : Row(
+        if (isMobile)
+          Column(
+            children: services.map((s) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 28.0),
+                child: _buildServiceItem(
+                  icon: s["icon"] as IconData,
+                  title: s["title"] as String,
+                  description: s["description"] as String,
+                ),
+              );
+            }).toList(),
+          )
+        else
+          Column(
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: _buildServiceItem(
-                      icon: Icons.smartphone_rounded,
-                      title: "Flutter Development",
-                      description:
-                          "Building high-performance cross-platform apps for Android, iOS, and Web with modern Flutter architecture.",
+                      icon: services[0]["icon"] as IconData,
+                      title: services[0]["title"] as String,
+                      description: services[0]["description"] as String,
                     ),
                   ),
                   const SizedBox(width: 32),
                   Expanded(
                     child: _buildServiceItem(
-                      icon: Icons.cloud_rounded,
-                      title: "Firebase Integration",
-                      description:
-                          "Seamless integration of real-time databases, authentication, cloud storage, and push notifications.",
+                      icon: services[1]["icon"] as IconData,
+                      title: services[1]["title"] as String,
+                      description: services[1]["description"] as String,
                     ),
                   ),
                   const SizedBox(width: 32),
                   Expanded(
                     child: _buildServiceItem(
-                      icon: Icons.brush_rounded,
-                      title: "UI/UX Design",
-                      description:
-                          "Creating stunning, responsive interfaces with smooth animations and professional design principles.",
+                      icon: services[2]["icon"] as IconData,
+                      title: services[2]["title"] as String,
+                      description: services[2]["description"] as String,
                     ),
                   ),
                 ],
               ),
+              const SizedBox(height: 36),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _buildServiceItem(
+                      icon: services[3]["icon"] as IconData,
+                      title: services[3]["title"] as String,
+                      description: services[3]["description"] as String,
+                    ),
+                  ),
+                  const SizedBox(width: 32),
+                  Expanded(
+                    child: _buildServiceItem(
+                      icon: services[4]["icon"] as IconData,
+                      title: services[4]["title"] as String,
+                      description: services[4]["description"] as String,
+                    ),
+                  ),
+                  const SizedBox(width: 32),
+                  Expanded(
+                    child: _buildServiceItem(
+                      icon: services[5]["icon"] as IconData,
+                      title: services[5]["title"] as String,
+                      description: services[5]["description"] as String,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
       ],
     );
   }
