@@ -336,121 +336,122 @@ class _ProjectsViewState extends State<ProjectsView> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Stack(
-          children: [
-            // Thumbnail Image Background or Fallback Dark Octocat
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: const Color(0xFF1B1B1E),
-              child: Image.network(
-                githubSocialPreviewUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Center(
-                    child: Opacity(
-                      opacity: 0.85,
-                      child: Container(
-                        width: 210,
-                        height: 210,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xFF26262B),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => _launchUrl(url),
+            mouseCursor: SystemMouseCursors.click,
+            splashColor: Colors.white.withValues(alpha: 0.15),
+            highlightColor: Colors.white.withValues(alpha: 0.1),
+            child: Stack(
+              children: [
+                // Thumbnail Image Background or Fallback Dark Octocat
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: const Color(0xFF1B1B1E),
+                  child: Image.network(
+                    githubSocialPreviewUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Opacity(
+                          opacity: 0.85,
+                          child: Container(
+                            width: 210,
+                            height: 210,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFF26262B),
+                            ),
+                            child: const Icon(
+                              Icons.code_rounded,
+                              size: 110,
+                              color: Color(0xFF121214),
+                            ),
+                          ),
                         ),
-                        child: const Icon(
-                          Icons.code_rounded,
-                          size: 110,
-                          color: Color(0xFF121214),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            // Black Gradient Overlay at bottom for clear text visibility
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black.withValues(alpha: 0.35),
-                    Colors.black.withValues(alpha: 0.95),
-                  ],
-                  stops: const [0.35, 0.65, 1.0],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ),
 
-            // Content at Bottom of Card
-            Positioned(
-              left: 20,
-              right: 20,
-              bottom: 20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    displayName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                // Black Gradient Overlay at bottom for clear text visibility
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withValues(alpha: 0.35),
+                        Colors.black.withValues(alpha: 0.95),
+                      ],
+                      stops: const [0.35, 0.65, 1.0],
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    description,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                      fontSize: 12.5,
-                      height: 1.4,
-                      color: Colors.white.withValues(alpha: 0.8),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
+                ),
 
-                  // Bottom Action Buttons
-                  Row(
+                // Content at Bottom of Card
+                Positioned(
+                  left: 20,
+                  right: 20,
+                  bottom: 20,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      InkWell(
-                        onTap: () => _launchUrl(url),
-                        borderRadius: BorderRadius.circular(8),
-                        child: const Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Icon(
-                            Icons.code_rounded,
-                            color: Colors.white,
-                            size: 22,
-                          ),
+                      Text(
+                        displayName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      InkWell(
-                        onTap: () => _launchUrl(url),
-                        borderRadius: BorderRadius.circular(8),
-                        child: const Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Icon(
-                            Icons.open_in_new_rounded,
-                            color: Colors.white,
-                            size: 20,
-                          ),
+                      const SizedBox(height: 6),
+                      Text(
+                        description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12.5,
+                          height: 1.4,
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Bottom Action Buttons
+                      Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: Icon(
+                              Icons.code_rounded,
+                              color: Colors.white,
+                              size: 22,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: Icon(
+                              Icons.open_in_new_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
