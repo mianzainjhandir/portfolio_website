@@ -6,6 +6,7 @@ import 'components/drawer.dart';
 import 'home_view.dart';
 import 'about_view.dart';
 import 'skills_view.dart';
+import 'projects_view.dart';
 
 class DeveloperPortfolio extends StatefulWidget {
   DeveloperPortfolio({super.key});
@@ -21,6 +22,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
+  final GlobalKey _projectsKey = GlobalKey();
 
   int _activeSectionIndex = 0;
 
@@ -47,6 +49,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
 
     double aboutOffset = MediaQuery.of(context).size.height * 0.4;
     double skillsOffset = MediaQuery.of(context).size.height * 1.5;
+    double projectsOffset = MediaQuery.of(context).size.height * 2.5;
 
     final RenderBox? aboutBox =
         _aboutKey.currentContext?.findRenderObject() as RenderBox?;
@@ -62,8 +65,17 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
       skillsOffset = widget._scrollController.offset + pos.dy - 200;
     }
 
+    final RenderBox? projectsBox =
+        _projectsKey.currentContext?.findRenderObject() as RenderBox?;
+    if (projectsBox != null) {
+      final pos = projectsBox.localToGlobal(Offset.zero);
+      projectsOffset = widget._scrollController.offset + pos.dy - 200;
+    }
+
     int newIndex = 0;
-    if (offset >= skillsOffset) {
+    if (offset >= projectsOffset) {
+      newIndex = 3; // Projects
+    } else if (offset >= skillsOffset) {
       newIndex = 2; // Skills
     } else if (offset >= aboutOffset) {
       newIndex = 1; // About
@@ -103,6 +115,15 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
         targetOffset = widget._scrollController.offset + position.dy;
       } else {
         targetOffset = MediaQuery.of(context).size.height * 1.8;
+      }
+    } else if (index == 3) {
+      final RenderBox? renderBox =
+          _projectsKey.currentContext?.findRenderObject() as RenderBox?;
+      if (renderBox != null) {
+        final position = renderBox.localToGlobal(Offset.zero);
+        targetOffset = widget._scrollController.offset + position.dy;
+      } else {
+        targetOffset = MediaQuery.of(context).size.height * 2.8;
       }
     }
 
@@ -147,6 +168,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                         key: _skillsKey,
                         isVisible: _activeSectionIndex >= 2,
                       ),
+                      ProjectsView(key: _projectsKey),
                     ],
                   ),
                 ),
