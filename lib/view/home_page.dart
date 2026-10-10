@@ -116,6 +116,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = Responsive.isMobile(context);
+    final bool showLeftBar = !isMobile && _activeSectionIndex > 0;
 
     return Scaffold(
       key: widget._globalKey,
@@ -126,16 +127,25 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
       body: SafeArea(
         child: Stack(
           children: [
-            NotificationListener<ScrollNotification>(
-              onNotification: _handleScrollNotification,
-              child: SingleChildScrollView(
-                controller: widget._scrollController,
-                child: Column(
-                  children: [
-                    HomeView(key: _homeKey),
-                    AboutView(key: _aboutKey),
-                    SkillsView(key: _skillsKey),
-                  ],
+            // Scrollable Content Area with Dynamic Padding when Left Sidebar is Active
+            AnimatedPadding(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+              padding: EdgeInsets.only(
+                left: showLeftBar ? 240.0 : 0.0,
+                right: isMobile ? 0.0 : 60.0,
+              ),
+              child: NotificationListener<ScrollNotification>(
+                onNotification: _handleScrollNotification,
+                child: SingleChildScrollView(
+                  controller: widget._scrollController,
+                  child: Column(
+                    children: [
+                      HomeView(key: _homeKey),
+                      AboutView(key: _aboutKey),
+                      SkillsView(key: _skillsKey),
+                    ],
+                  ),
                 ),
               ),
             ),
