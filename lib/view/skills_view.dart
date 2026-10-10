@@ -72,13 +72,15 @@ class SkillsView extends StatelessWidget {
               ),
               const SizedBox(height: 36),
 
-              // Two Columns Layout (Education Journey & Personal Skills)
+              // Two Columns Layout (Education Journey & Personal Skills + Technical Skills)
               isMobile
                   ? Column(
                       children: [
                         _buildEducationJourney(isMobile),
                         const SizedBox(height: 40),
                         _buildPersonalSkills(isMobile),
+                        const SizedBox(height: 40),
+                        _buildTechnicalSkills(isMobile),
                       ],
                     )
                   : Row(
@@ -91,7 +93,13 @@ class SkillsView extends StatelessWidget {
                         const SizedBox(width: 40),
                         Expanded(
                           flex: 5,
-                          child: _buildPersonalSkills(isMobile),
+                          child: Column(
+                            children: [
+                              _buildPersonalSkills(isMobile),
+                              const SizedBox(height: 40),
+                              _buildTechnicalSkills(isMobile),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -354,6 +362,183 @@ class SkillsView extends StatelessWidget {
               _buildSoftSkillProgress("Teamwork", 0.92),
               _buildSoftSkillProgress("Communication", 0.85),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTechnicalSkills(bool isMobile) {
+    final techSkills = [
+      {
+        "label": "Flutter",
+        "percentage": "85%",
+        "progress": 0.85,
+        "color": const Color(0xFF0288D1),
+      },
+      {
+        "label": "Dart",
+        "percentage": "90%",
+        "progress": 0.90,
+        "color": const Color(0xFF009688),
+      },
+      {
+        "label": "Firebase",
+        "percentage": "75%",
+        "progress": 0.75,
+        "color": const Color(0xFFFF5722),
+      },
+      {
+        "label": "REST APIs",
+        "percentage": "80%",
+        "progress": 0.80,
+        "color": const Color(0xFFAB47BC),
+      },
+      {
+        "label": "Git",
+        "percentage": "88%",
+        "progress": 0.88,
+        "color": const Color(0xFF607D8B),
+      },
+      {
+        "label": "UI/UX",
+        "percentage": "70%",
+        "progress": 0.70,
+        "color": const Color(0xFFC0CA33),
+      },
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Technical Skills Header Row
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFF4CAF50),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF4CAF50).withValues(alpha: 0.35),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.code_rounded,
+                color: Colors.white,
+                size: 22,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Technical Skills",
+                  style: GoogleFonts.poppins(
+                    fontSize: isMobile ? 20 : 24,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF181818),
+                  ),
+                ),
+                Text(
+                  "Programming & Tools",
+                  style: GoogleFonts.poppins(
+                    fontSize: 12.5,
+                    fontStyle: FontStyle.italic,
+                    color: const Color(0xFF777777),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 28),
+
+        // White Card Container for Technical Skills Circles
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 25,
+                spreadRadius: 2,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Wrap(
+            spacing: isMobile ? 20 : 32,
+            runSpacing: 28,
+            alignment: WrapAlignment.spaceAround,
+            children: techSkills.map((s) {
+              return _buildCircularProgressSkill(
+                label: s["label"] as String,
+                percentageText: s["percentage"] as String,
+                progress: s["progress"] as double,
+                color: s["color"] as Color,
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCircularProgressSkill({
+    required String label,
+    required String percentageText,
+    required double progress,
+    required Color color,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: 72,
+          height: 72,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                width: 72,
+                height: 72,
+                child: CircularProgressIndicator(
+                  value: progress,
+                  strokeWidth: 7,
+                  backgroundColor: const Color(0xFFEEEEEE),
+                  valueColor: AlwaysStoppedAnimation<Color>(color),
+                  strokeCap: StrokeCap.round,
+                ),
+              ),
+              Text(
+                percentageText,
+                style: GoogleFonts.poppins(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF2E7D32),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            fontSize: 13.5,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF333333),
           ),
         ),
       ],
