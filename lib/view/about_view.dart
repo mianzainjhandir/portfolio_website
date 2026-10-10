@@ -242,9 +242,80 @@ class AboutView extends StatelessWidget {
 
               // Achievements & Stats Section
               _buildAchievementsSection(isMobile),
+
+              const SizedBox(height: 50),
+
+              // Ready to Start Your Project Callout
+              _buildProjectCalloutCard(isMobile),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildProjectCalloutCard(bool isMobile) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF7ED),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFFFE0B2),
+          width: 1.2,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: const Color(0xFFFFAE34),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFFFAE34).withValues(alpha: 0.35),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.rocket_launch_rounded,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Ready to Start Your Project?",
+                  style: GoogleFonts.poppins(
+                    fontSize: isMobile ? 16 : 18,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF181818),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "Let's collaborate and bring your ideas to life with cutting-edge Flutter solutions",
+                  style: GoogleFonts.poppins(
+                    fontSize: isMobile ? 13 : 14,
+                    color: const Color(0xFF666666),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
