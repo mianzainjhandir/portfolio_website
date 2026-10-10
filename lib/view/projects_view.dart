@@ -158,6 +158,7 @@ class _ProjectsViewState extends State<ProjectsView> {
     final int displayCount = _isExpanded ? _projects.length : 8;
     final List<Map<String, dynamic>> visibleProjects =
         _projects.take(displayCount).toList();
+    final int remainingCount = _projects.length - 8;
 
     return Container(
       width: double.infinity,
@@ -256,7 +257,7 @@ class _ProjectsViewState extends State<ProjectsView> {
 
               const SizedBox(height: 40),
 
-              // See More / View All Repositories Button
+              // See More / Dynamic Count Button
               if (_projects.length > 8)
                 Center(
                   child: OutlinedButton.icon(
@@ -292,8 +293,8 @@ class _ProjectsViewState extends State<ProjectsView> {
                     ),
                     label: Text(
                       _isExpanded
-                          ? "View All Repositories on GitHub"
-                          : "See More Projects",
+                          ? "View All Repositories on GitHub (${_projects.length} Total)"
+                          : "See More ($remainingCount Projects)",
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
