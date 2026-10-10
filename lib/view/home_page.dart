@@ -36,10 +36,17 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   void _onScroll() {
     if (!widget._scrollController.hasClients) return;
     final double offset = widget._scrollController.offset;
-    final double screenHeight = MediaQuery.of(context).size.height;
+
+    double aboutThreshold = MediaQuery.of(context).size.height * 0.4;
+    final RenderBox? renderBox =
+        _aboutKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final position = renderBox.localToGlobal(Offset.zero);
+      aboutThreshold = widget._scrollController.offset + position.dy - 250;
+    }
 
     int newIndex = 0;
-    if (offset >= screenHeight * 0.5) {
+    if (offset >= aboutThreshold) {
       newIndex = 1; // About section
     } else {
       newIndex = 0; // Home section
@@ -53,6 +60,10 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   }
 
   void _scrollToSection(int index) {
+    setState(() {
+      _activeSectionIndex = index;
+    });
+
     double targetOffset = 0;
     if (index == 0) {
       targetOffset = 0;
@@ -121,8 +132,8 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
       {"icon": Icons.email_outlined, "index": 4, "tooltip": "Contact"},
     ];
 
-    final double btnSize = isMobile ? 38.0 : 44.0;
-    final double iconSize = isMobile ? 18.0 : 22.0;
+    final double btnSize = isMobile ? 46.0 : 54.0;
+    final double iconSize = isMobile ? 22.0 : 26.0;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -133,7 +144,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
           final IconData icon = item["icon"] as IconData;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Tooltip(
               message: item["tooltip"] as String,
               child: InkWell(
@@ -150,15 +161,15 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                         : const Color(0xFF0D0D0D),
                     border: Border.all(
                       color: Colors.white,
-                      width: isSelected ? 2.0 : 1.5,
+                      width: isSelected ? 2.5 : 1.5,
                     ),
                     boxShadow: [
                       BoxShadow(
                         color: isSelected
-                            ? const Color(0xFFFFAE34).withValues(alpha: 0.5)
-                            : Colors.black.withValues(alpha: 0.25),
-                        blurRadius: isSelected ? 12 : 6,
-                        spreadRadius: isSelected ? 2 : 0,
+                            ? const Color(0xFFFFAE34).withValues(alpha: 0.55)
+                            : Colors.black.withValues(alpha: 0.3),
+                        blurRadius: isSelected ? 14 : 6,
+                        spreadRadius: isSelected ? 3 : 0,
                         offset: const Offset(0, 4),
                       ),
                     ],
@@ -173,12 +184,12 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
             ),
           );
         }),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         // Theme Toggle Icon
         Icon(
           Icons.nights_stay_rounded,
           color: Colors.grey.shade400,
-          size: isMobile ? 20 : 24,
+          size: isMobile ? 22 : 26,
         ),
       ],
     );
