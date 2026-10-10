@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_project/responsive/responsive.dart';
 
 import 'components/drawer.dart';
+import 'contect_view.dart';
 import 'home_view.dart';
 import 'about_view.dart';
 import 'skills_view.dart';
@@ -169,6 +170,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                         isVisible: _activeSectionIndex >= 2,
                       ),
                       ProjectsView(key: _projectsKey),
+
                     ],
                   ),
                 ),
