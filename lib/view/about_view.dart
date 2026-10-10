@@ -237,9 +237,188 @@ class AboutView extends StatelessWidget {
 
               // My Services Section
               _buildServicesSection(isMobile),
+
+              const SizedBox(height: 50),
+
+              // Achievements & Stats Section
+              _buildAchievementsSection(isMobile),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildAchievementsSection(bool isMobile) {
+    final stats = [
+      {
+        "icon": Icons.access_time_rounded,
+        "value": "2+",
+        "label": "Years\nExperience",
+      },
+      {
+        "icon": Icons.playlist_add_check_rounded,
+        "value": "6+",
+        "label": "Projects\nCompleted",
+      },
+      {
+        "icon": Icons.star_rounded,
+        "value": "100%",
+        "label": "Client\nSatisfaction",
+      },
+      {
+        "icon": Icons.code_rounded,
+        "value": "10k+",
+        "label": "Lines of\nFlutter Code",
+      },
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header Row
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFF2196F3),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF2196F3).withValues(alpha: 0.35),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.trending_up_rounded,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Achievements & Stats",
+                  style: GoogleFonts.poppins(
+                    fontSize: isMobile ? 24 : 28,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF181818),
+                  ),
+                ),
+                Text(
+                  "Numbers That Tell My Story",
+                  style: GoogleFonts.poppins(
+                    fontSize: 13.5,
+                    fontStyle: FontStyle.italic,
+                    color: const Color(0xFF777777),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 28),
+
+        // Stats Card Container
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 16.0 : 32.0,
+            vertical: isMobile ? 28.0 : 36.0,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 25,
+                spreadRadius: 2,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: isMobile
+              ? Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
+                  alignment: WrapAlignment.center,
+                  children: stats
+                      .map((s) => _buildStatCircle(
+                            icon: s["icon"] as IconData,
+                            value: s["value"] as String,
+                            label: s["label"] as String,
+                            isMobile: true,
+                          ))
+                      .toList(),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: stats
+                      .map((s) => _buildStatCircle(
+                            icon: s["icon"] as IconData,
+                            value: s["value"] as String,
+                            label: s["label"] as String,
+                            isMobile: false,
+                          ))
+                      .toList(),
+                ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatCircle({
+    required IconData icon,
+    required String value,
+    required String label,
+    required bool isMobile,
+  }) {
+    final double circleSize = isMobile ? 125 : 145;
+
+    return Container(
+      width: circleSize,
+      height: circleSize,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: Color(0xFF0D0D0D),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: isMobile ? 20 : 22,
+            color: Colors.white,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              fontSize: isMobile ? 18 : 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              fontSize: isMobile ? 10 : 11,
+              height: 1.2,
+              color: Colors.white70,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
   }
