@@ -451,8 +451,8 @@ class _ContectViewState extends State<ContectView> {
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Icon(
-            icon as IconData,
+          child: FaIcon(
+            icon as dynamic,
             color: const Color(0xFFFFAE34),
             size: 22,
           ),
