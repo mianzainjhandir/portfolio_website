@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../responsive/responsive.dart';
@@ -355,7 +356,7 @@ class _ContectViewState extends State<ContectView> {
         ),
         const SizedBox(height: 36),
 
-        // Follow Me Header & Social Icons
+        // Follow Me Header & Official FontAwesome Social Icons
         Text(
           "Follow Me",
           style: GoogleFonts.poppins(
@@ -366,40 +367,37 @@ class _ContectViewState extends State<ContectView> {
         ),
         const SizedBox(height: 20),
 
-        Row(
+        Wrap(
+          spacing: 16,
+          runSpacing: 16,
           children: [
             _buildSocialIconButton(
-              icon: Icons.work_rounded,
+              icon: FontAwesomeIcons.linkedin,
               tooltip: "LinkedIn",
               onTap: () => _launchUrl("https://linkedin.com"),
             ),
-            const SizedBox(width: 14),
             _buildSocialIconButton(
-              icon: Icons.code_rounded,
+              icon: FontAwesomeIcons.github,
               tooltip: "GitHub",
               onTap: () => _launchUrl(_githubUrl),
             ),
-            const SizedBox(width: 14),
             _buildSocialIconButton(
-              icon: Icons.flutter_dash_rounded,
+              icon: FontAwesomeIcons.twitter,
               tooltip: "Twitter",
               onTap: () => _launchUrl("https://twitter.com"),
             ),
-            const SizedBox(width: 14),
             _buildSocialIconButton(
-              icon: Icons.facebook_rounded,
+              icon: FontAwesomeIcons.facebook,
               tooltip: "Facebook",
               onTap: () => _launchUrl("https://facebook.com"),
             ),
-            const SizedBox(width: 14),
             _buildSocialIconButton(
-              icon: Icons.camera_alt_rounded,
+              icon: FontAwesomeIcons.instagram,
               tooltip: "Instagram",
               onTap: () => _launchUrl("https://instagram.com"),
             ),
-            const SizedBox(width: 14),
             _buildSocialIconButton(
-              icon: Icons.play_circle_fill_rounded,
+              icon: FontAwesomeIcons.youtube,
               tooltip: "YouTube",
               onTap: () => _launchUrl("https://youtube.com"),
             ),
@@ -453,7 +451,7 @@ class _ContectViewState extends State<ContectView> {
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Icon(
+          child: FaIcon(
             icon,
             color: const Color(0xFFFFAE34),
             size: 22,
