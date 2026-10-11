@@ -4,21 +4,24 @@ import '../responsive/responsive.dart';
 
 class SkillsView extends StatelessWidget {
   final bool isVisible;
+  final bool isDarkMode;
 
   const SkillsView({
     super.key,
     this.isVisible = true,
+    this.isDarkMode = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final bool isMobile = Responsive.isMobile(context);
+    final bool isDark = isDarkMode;
 
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFFF4F5F7),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF222226) : const Color(0xFFF4F5F7),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20.0 : 80.0,
@@ -63,7 +66,7 @@ class SkillsView extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: isMobile ? 24 : 28,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFF181818),
+                          color: isDark ? Colors.white : const Color(0xFF181818),
                         ),
                       ),
                       Text(
@@ -71,7 +74,7 @@ class SkillsView extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 13.5,
                           fontStyle: FontStyle.italic,
-                          color: const Color(0xFF777777),
+                          color: isDark ? Colors.white70 : const Color(0xFF777777),
                         ),
                       ),
                     ],
@@ -84,11 +87,11 @@ class SkillsView extends StatelessWidget {
               isMobile
                   ? Column(
                       children: [
-                        _buildEducationJourney(isMobile),
+                        _buildEducationJourney(isMobile, isDark),
                         const SizedBox(height: 40),
-                        _buildPersonalSkills(isMobile),
+                        _buildPersonalSkills(isMobile, isDark),
                         const SizedBox(height: 40),
-                        _buildTechnicalSkills(isMobile),
+                        _buildTechnicalSkills(isMobile, isDark),
                       ],
                     )
                   : Row(
@@ -96,16 +99,16 @@ class SkillsView extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 6,
-                          child: _buildEducationJourney(isMobile),
+                          child: _buildEducationJourney(isMobile, isDark),
                         ),
                         const SizedBox(width: 40),
                         Expanded(
                           flex: 5,
                           child: Column(
                             children: [
-                              _buildPersonalSkills(isMobile),
+                              _buildPersonalSkills(isMobile, isDark),
                               const SizedBox(height: 40),
-                              _buildTechnicalSkills(isMobile),
+                              _buildTechnicalSkills(isMobile, isDark),
                             ],
                           ),
                         ),
@@ -118,7 +121,7 @@ class SkillsView extends StatelessWidget {
     );
   }
 
-  Widget _buildEducationJourney(bool isMobile) {
+  Widget _buildEducationJourney(bool isMobile, bool isDark) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -155,7 +158,7 @@ class SkillsView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 20 : 24,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF181818),
+                    color: isDark ? Colors.white : const Color(0xFF181818),
                   ),
                 ),
                 Text(
@@ -163,7 +166,7 @@ class SkillsView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 12.5,
                     fontStyle: FontStyle.italic,
-                    color: const Color(0xFF777777),
+                    color: isDark ? Colors.white70 : const Color(0xFF777777),
                   ),
                 ),
               ],
@@ -180,6 +183,7 @@ class SkillsView extends StatelessWidget {
           description:
               "Focusing on core software engineering principles, computer science fundamentals, data structures, and modern software development practices.",
           isLast: false,
+          isDark: isDark,
         ),
         _buildTimelineItem(
           title: "Flutter Learning Journey",
@@ -188,6 +192,7 @@ class SkillsView extends StatelessWidget {
           description:
               "Began learning Flutter in late 2023 at AiLab Solutions. Gained proficiency in Dart, UI/UX design, and building cross-platform mobile applications.",
           isLast: false,
+          isDark: isDark,
         ),
         _buildTimelineItem(
           title: "Advanced Flutter Concepts",
@@ -196,6 +201,7 @@ class SkillsView extends StatelessWidget {
           description:
               "Continuously learning advanced Flutter topics including state management, animations, and performance optimization.",
           isLast: true,
+          isDark: isDark,
         ),
       ],
     );
@@ -207,6 +213,7 @@ class SkillsView extends StatelessWidget {
     required String dateTag,
     required String description,
     required bool isLast,
+    required bool isDark,
   }) {
     return IntrinsicHeight(
       child: Row(
@@ -228,7 +235,7 @@ class SkillsView extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: 2,
-                    color: const Color(0xFFE0E0E0),
+                    color: isDark ? const Color(0xFF383842) : const Color(0xFFE0E0E0),
                   ),
                 ),
             ],
@@ -252,7 +259,7 @@ class SkillsView extends StatelessWidget {
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: const Color(0xFF181818),
+                            color: isDark ? Colors.white : const Color(0xFF181818),
                           ),
                         ),
                       ),
@@ -272,7 +279,7 @@ class SkillsView extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: const Color(0xFF888888),
+                      color: isDark ? Colors.white70 : const Color(0xFF888888),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -281,7 +288,7 @@ class SkillsView extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 13.5,
                       height: 1.5,
-                      color: const Color(0xFF666666),
+                      color: isDark ? Colors.white60 : const Color(0xFF666666),
                     ),
                   ),
                 ],
@@ -293,7 +300,7 @@ class SkillsView extends StatelessWidget {
     );
   }
 
-  Widget _buildPersonalSkills(bool isMobile) {
+  Widget _buildPersonalSkills(bool isMobile, bool isDark) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -330,7 +337,7 @@ class SkillsView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 20 : 24,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF181818),
+                    color: isDark ? Colors.white : const Color(0xFF181818),
                   ),
                 ),
                 Text(
@@ -338,7 +345,7 @@ class SkillsView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 12.5,
                     fontStyle: FontStyle.italic,
-                    color: const Color(0xFF777777),
+                    color: isDark ? Colors.white70 : const Color(0xFF777777),
                   ),
                 ),
               ],
@@ -352,11 +359,11 @@ class SkillsView extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDark ? const Color(0xFF28282E) : Colors.white,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
                 blurRadius: 20,
                 spreadRadius: 1,
                 offset: const Offset(0, 6),
@@ -366,10 +373,10 @@ class SkillsView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSoftSkillProgress("Time Management", 0.90),
-              _buildSoftSkillProgress("Adaptability", 0.88),
-              _buildSoftSkillProgress("Teamwork", 0.92),
-              _buildSoftSkillProgress("Communication", 0.85),
+              _buildSoftSkillProgress("Time Management", 0.90, isDark),
+              _buildSoftSkillProgress("Adaptability", 0.88, isDark),
+              _buildSoftSkillProgress("Teamwork", 0.92, isDark),
+              _buildSoftSkillProgress("Communication", 0.85, isDark),
             ],
           ),
         ),
@@ -377,7 +384,7 @@ class SkillsView extends StatelessWidget {
     );
   }
 
-  Widget _buildTechnicalSkills(bool isMobile) {
+  Widget _buildTechnicalSkills(bool isMobile, bool isDark) {
     final techSkills = [
       {
         "label": "Flutter",
@@ -453,7 +460,7 @@ class SkillsView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 20 : 24,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF181818),
+                    color: isDark ? Colors.white : const Color(0xFF181818),
                   ),
                 ),
                 Text(
@@ -461,7 +468,7 @@ class SkillsView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 12.5,
                     fontStyle: FontStyle.italic,
-                    color: const Color(0xFF777777),
+                    color: isDark ? Colors.white70 : const Color(0xFF777777),
                   ),
                 ),
               ],
@@ -475,11 +482,11 @@ class SkillsView extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDark ? const Color(0xFF28282E) : Colors.white,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
                 blurRadius: 20,
                 spreadRadius: 1,
                 offset: const Offset(0, 6),
@@ -496,6 +503,7 @@ class SkillsView extends StatelessWidget {
                 percentageText: s["percentage"] as String,
                 progress: s["progress"] as double,
                 color: s["color"] as Color,
+                isDark: isDark,
               );
             }).toList(),
           ),
@@ -509,6 +517,7 @@ class SkillsView extends StatelessWidget {
     required String percentageText,
     required double progress,
     required Color color,
+    required bool isDark,
   }) {
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(
@@ -535,7 +544,7 @@ class SkillsView extends StatelessWidget {
                     child: CircularProgressIndicator(
                       value: animatedValue,
                       strokeWidth: 7,
-                      backgroundColor: const Color(0xFFEEEEEE),
+                      backgroundColor: isDark ? const Color(0xFF383842) : const Color(0xFFEEEEEE),
                       valueColor: AlwaysStoppedAnimation<Color>(color),
                       strokeCap: StrokeCap.round,
                     ),
@@ -545,7 +554,7 @@ class SkillsView extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xFF2E7D32),
+                      color: isDark ? const Color(0xFF81C784) : const Color(0xFF2E7D32),
                     ),
                   ),
                 ],
@@ -557,7 +566,7 @@ class SkillsView extends StatelessWidget {
               style: GoogleFonts.poppins(
                 fontSize: 13.5,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF333333),
+                color: isDark ? Colors.white : const Color(0xFF333333),
               ),
             ),
           ],
@@ -566,7 +575,7 @@ class SkillsView extends StatelessWidget {
     );
   }
 
-  Widget _buildSoftSkillProgress(String name, double progress) {
+  Widget _buildSoftSkillProgress(String name, double progress, bool isDark) {
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(
         begin: 0.0,
@@ -585,7 +594,7 @@ class SkillsView extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF333333),
+                  color: isDark ? Colors.white : const Color(0xFF333333),
                 ),
               ),
               const SizedBox(height: 8),
@@ -594,7 +603,7 @@ class SkillsView extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: animatedValue,
                   minHeight: 8,
-                  backgroundColor: const Color(0xFFECEFF1),
+                  backgroundColor: isDark ? const Color(0xFF383842) : const Color(0xFFECEFF1),
                   valueColor:
                       const AlwaysStoppedAnimation<Color>(Color(0xFF2196F3)),
                 ),

@@ -3,17 +3,23 @@ import 'package:google_fonts/google_fonts.dart';
 import '../responsive/responsive.dart';
 
 class AboutView extends StatelessWidget {
-  const AboutView({super.key});
+  final bool isDarkMode;
+
+  const AboutView({
+    super.key,
+    this.isDarkMode = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final bool isMobile = Responsive.isMobile(context);
+    final bool isDark = isDarkMode;
 
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1C1C20) : Colors.white,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20.0 : 80.0,
@@ -31,7 +37,7 @@ class AboutView extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: isMobile ? 28 : 36,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFF181818),
+                  color: isDark ? Colors.white : const Color(0xFF181818),
                 ),
               ),
               const SizedBox(height: 24),
@@ -41,11 +47,11 @@ class AboutView extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.all(isMobile ? 20.0 : 32.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: isDark ? const Color(0xFF28282E) : Colors.white,
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
                       blurRadius: 20,
                       spreadRadius: 1,
                       offset: const Offset(0, 6),
@@ -99,7 +105,7 @@ class AboutView extends StatelessWidget {
                                 style: GoogleFonts.poppins(
                                   fontSize: isMobile ? 16 : 20,
                                   fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF181818),
+                                  color: isDark ? Colors.white : const Color(0xFF181818),
                                 ),
                               ),
                             ],
@@ -114,10 +120,10 @@ class AboutView extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFAFAFA),
+                        color: isDark ? const Color(0xFF202024) : const Color(0xFFFAFAFA),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: const Color(0xFFEEEEEE),
+                          color: isDark ? const Color(0xFF383842) : const Color(0xFFEEEEEE),
                           width: 1.2,
                         ),
                       ),
@@ -126,7 +132,7 @@ class AboutView extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: isMobile ? 13.5 : 15,
                           height: 1.6,
-                          color: const Color(0xFF555555),
+                          color: isDark ? Colors.white70 : const Color(0xFF555555),
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -204,10 +210,10 @@ class AboutView extends StatelessWidget {
                         vertical: 14,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFF4E5),
+                        color: isDark ? const Color(0xFF2E241B) : const Color(0xFFFFF4E5),
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color: const Color(0xFFFFE0B2),
+                          color: isDark ? const Color(0xFF4D3823) : const Color(0xFFFFE0B2),
                           width: 1.2,
                         ),
                       ),
@@ -225,7 +231,7 @@ class AboutView extends StatelessWidget {
                                 fontSize: isMobile ? 13 : 14.5,
                                 fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.w700,
-                                color: const Color(0xFF2B2B2B),
+                                color: isDark ? Colors.white : const Color(0xFF2B2B2B),
                               ),
                             ),
                           ),
@@ -239,17 +245,17 @@ class AboutView extends StatelessWidget {
               const SizedBox(height: 50),
 
               // My Services Section
-              _buildServicesSection(isMobile),
+              _buildServicesSection(isMobile, isDark),
 
               const SizedBox(height: 50),
 
               // Achievements & Stats Section
-              _buildAchievementsSection(isMobile),
+              _buildAchievementsSection(isMobile, isDark),
 
               const SizedBox(height: 50),
 
               // Ready to Start Your Project Callout
-              _buildProjectCalloutCard(isMobile),
+              _buildProjectCalloutCard(isMobile, isDark),
             ],
           ),
         ),
@@ -257,15 +263,15 @@ class AboutView extends StatelessWidget {
     );
   }
 
-  Widget _buildProjectCalloutCard(bool isMobile) {
+  Widget _buildProjectCalloutCard(bool isMobile, bool isDark) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF7ED),
+        color: isDark ? const Color(0xFF2E241B) : const Color(0xFFFFF7ED),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFFFE0B2),
+          color: isDark ? const Color(0xFF4D3823) : const Color(0xFFFFE0B2),
           width: 1.2,
         ),
       ),
@@ -303,7 +309,7 @@ class AboutView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 16 : 18,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF181818),
+                    color: isDark ? Colors.white : const Color(0xFF181818),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -311,7 +317,7 @@ class AboutView extends StatelessWidget {
                   "Let's collaborate and bring your ideas to life with cutting-edge Flutter solutions",
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 13 : 14,
-                    color: const Color(0xFF666666),
+                    color: isDark ? Colors.white70 : const Color(0xFF666666),
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -323,7 +329,7 @@ class AboutView extends StatelessWidget {
     );
   }
 
-  Widget _buildAchievementsSection(bool isMobile) {
+  Widget _buildAchievementsSection(bool isMobile, bool isDark) {
     final stats = [
       {
         "icon": Icons.access_time_rounded,
@@ -383,7 +389,7 @@ class AboutView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 24 : 28,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF181818),
+                    color: isDark ? Colors.white : const Color(0xFF181818),
                   ),
                 ),
                 Text(
@@ -391,7 +397,7 @@ class AboutView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 13.5,
                     fontStyle: FontStyle.italic,
-                    color: const Color(0xFF777777),
+                    color: isDark ? Colors.white70 : const Color(0xFF777777),
                   ),
                 ),
               ],
@@ -408,11 +414,11 @@ class AboutView extends StatelessWidget {
             vertical: isMobile ? 28.0 : 36.0,
           ),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDark ? const Color(0xFF28282E) : Colors.white,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
                 blurRadius: 20,
                 spreadRadius: 1,
                 offset: const Offset(0, 6),
@@ -497,7 +503,7 @@ class AboutView extends StatelessWidget {
     );
   }
 
-  Widget _buildServicesSection(bool isMobile) {
+  Widget _buildServicesSection(bool isMobile, bool isDark) {
     final services = [
       {
         "icon": Icons.smartphone_rounded,
@@ -573,7 +579,7 @@ class AboutView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 24 : 28,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF181818),
+                    color: isDark ? Colors.white : const Color(0xFF181818),
                   ),
                 ),
                 Text(
@@ -581,7 +587,7 @@ class AboutView extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 13.5,
                     fontStyle: FontStyle.italic,
-                    color: const Color(0xFF777777),
+                    color: isDark ? Colors.white70 : const Color(0xFF777777),
                   ),
                 ),
               ],
@@ -600,6 +606,7 @@ class AboutView extends StatelessWidget {
                   icon: s["icon"] as IconData,
                   title: s["title"] as String,
                   description: s["description"] as String,
+                  isDark: isDark,
                 ),
               );
             }).toList(),
@@ -615,6 +622,7 @@ class AboutView extends StatelessWidget {
                       icon: services[0]["icon"] as IconData,
                       title: services[0]["title"] as String,
                       description: services[0]["description"] as String,
+                      isDark: isDark,
                     ),
                   ),
                   const SizedBox(width: 32),
@@ -623,6 +631,7 @@ class AboutView extends StatelessWidget {
                       icon: services[1]["icon"] as IconData,
                       title: services[1]["title"] as String,
                       description: services[1]["description"] as String,
+                      isDark: isDark,
                     ),
                   ),
                   const SizedBox(width: 32),
@@ -631,6 +640,7 @@ class AboutView extends StatelessWidget {
                       icon: services[2]["icon"] as IconData,
                       title: services[2]["title"] as String,
                       description: services[2]["description"] as String,
+                      isDark: isDark,
                     ),
                   ),
                 ],
@@ -644,6 +654,7 @@ class AboutView extends StatelessWidget {
                       icon: services[3]["icon"] as IconData,
                       title: services[3]["title"] as String,
                       description: services[3]["description"] as String,
+                      isDark: isDark,
                     ),
                   ),
                   const SizedBox(width: 32),
@@ -652,6 +663,7 @@ class AboutView extends StatelessWidget {
                       icon: services[4]["icon"] as IconData,
                       title: services[4]["title"] as String,
                       description: services[4]["description"] as String,
+                      isDark: isDark,
                     ),
                   ),
                   const SizedBox(width: 32),
@@ -660,6 +672,7 @@ class AboutView extends StatelessWidget {
                       icon: services[5]["icon"] as IconData,
                       title: services[5]["title"] as String,
                       description: services[5]["description"] as String,
+                      isDark: isDark,
                     ),
                   ),
                 ],
@@ -674,6 +687,7 @@ class AboutView extends StatelessWidget {
     required IconData icon,
     required String title,
     required String description,
+    required bool isDark,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -689,7 +703,7 @@ class AboutView extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: const Color(0xFF181818),
+            color: isDark ? Colors.white : const Color(0xFF181818),
           ),
         ),
         const SizedBox(height: 8),
@@ -698,7 +712,7 @@ class AboutView extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 14,
             height: 1.5,
-            color: const Color(0xFF666666),
+            color: isDark ? Colors.white70 : const Color(0xFF666666),
           ),
         ),
       ],

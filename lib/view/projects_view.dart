@@ -6,7 +6,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../responsive/responsive.dart';
 
 class ProjectsView extends StatefulWidget {
-  const ProjectsView({super.key});
+  final bool isDarkMode;
+
+  const ProjectsView({
+    super.key,
+    this.isDarkMode = false,
+  });
 
   @override
   State<ProjectsView> createState() => _ProjectsViewState();
@@ -155,6 +160,7 @@ class _ProjectsViewState extends State<ProjectsView> {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = Responsive.isMobile(context);
+    final bool isDark = widget.isDarkMode;
     final int displayCount = _isExpanded ? _projects.length : 8;
     final List<Map<String, dynamic>> visibleProjects =
         _projects.take(displayCount).toList();
@@ -162,9 +168,9 @@ class _ProjectsViewState extends State<ProjectsView> {
 
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1C1C20) : Colors.white,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20.0 : 80.0,
@@ -210,7 +216,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                         style: GoogleFonts.poppins(
                           fontSize: isMobile ? 24 : 28,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFF181818),
+                          color: isDark ? Colors.white : const Color(0xFF181818),
                         ),
                       ),
                       Text(
@@ -218,7 +224,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                         style: GoogleFonts.poppins(
                           fontSize: 13.5,
                           fontStyle: FontStyle.italic,
-                          color: const Color(0xFF777777),
+                          color: isDark ? Colors.white70 : const Color(0xFF777777),
                         ),
                       ),
                     ],
@@ -307,7 +313,7 @@ class _ProjectsViewState extends State<ProjectsView> {
               const SizedBox(height: 50),
 
               // Explore More Projects Banner Card
-              _buildExploreMoreGitHubCard(isMobile),
+              _buildExploreMoreGitHubCard(isMobile, isDark),
             ],
           ),
         ),
@@ -462,15 +468,15 @@ class _ProjectsViewState extends State<ProjectsView> {
     );
   }
 
-  Widget _buildExploreMoreGitHubCard(bool isMobile) {
+  Widget _buildExploreMoreGitHubCard(bool isMobile, bool isDark) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF7ED),
+        color: isDark ? const Color(0xFF2B2219) : const Color(0xFFFFF7ED),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFFFE0B2),
+          color: isDark ? const Color(0xFF4D3823) : const Color(0xFFFFE0B2),
           width: 1.2,
         ),
       ),
@@ -509,7 +515,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFF181818),
+                          color: isDark ? Colors.white : const Color(0xFF181818),
                         ),
                       ),
                     ),
@@ -520,7 +526,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                   "Visit my GitHub to discover all my Flutter projects, contributions, and open-source work",
                   style: GoogleFonts.poppins(
                     fontSize: 13.5,
-                    color: const Color(0xFF666666),
+                    color: isDark ? Colors.white70 : const Color(0xFF666666),
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -590,7 +596,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFF181818),
+                          color: isDark ? Colors.white : const Color(0xFF181818),
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -598,7 +604,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                         "Visit my GitHub to discover all my Flutter projects, contributions, and open-source work",
                         style: GoogleFonts.poppins(
                           fontSize: 13.5,
-                          color: const Color(0xFF666666),
+                          color: isDark ? Colors.white70 : const Color(0xFF666666),
                           fontWeight: FontWeight.w400,
                         ),
                       ),

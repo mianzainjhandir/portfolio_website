@@ -5,7 +5,12 @@ import '../responsive/responsive.dart';
 import '../utills/floating_profile.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  final bool isDarkMode;
+
+  const HomeView({
+    super.key,
+    this.isDarkMode = false,
+  });
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -35,13 +40,14 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final bool isMobile = Responsive.isMobile(context);
     final double screenHeight = MediaQuery.of(context).size.height;
+    final bool isDark = widget.isDarkMode;
 
     return Container(
       width: double.infinity,
       constraints: BoxConstraints(
         minHeight: screenHeight,
       ),
-      color: const Color(0xFFF4F5F7), // First screen viewport is light grey
+      color: isDark ? const Color(0xFF222226) : const Color(0xFFF4F5F7),
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20.0 : 80.0,
         vertical: isMobile ? 40.0 : 60.0,
@@ -56,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     const FloatingProfile(),
                     const SizedBox(height: 30),
-                    _buildTextSection(isMobile: true),
+                    _buildTextSection(isMobile: true, isDark: isDark),
                   ],
                 )
               : Row(
@@ -64,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: _buildTextSection(isMobile: false),
+                      child: _buildTextSection(isMobile: false, isDark: isDark),
                     ),
                     const SizedBox(width: 40),
                     const FloatingProfile(),
@@ -75,7 +81,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildTextSection({required bool isMobile}) {
+  Widget _buildTextSection({required bool isMobile, required bool isDark}) {
     final CrossAxisAlignment alignment =
         isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start;
     final WrapAlignment wrapAlignment =
@@ -101,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 2.0,
-                color: const Color(0xFF1E1E1E),
+                color: isDark ? Colors.white : const Color(0xFF1E1E1E),
               ),
             ),
           ],
@@ -116,7 +122,7 @@ class _HomeViewState extends State<HomeView> {
             fontSize: isMobile ? 36 : 52,
             fontWeight: FontWeight.w900,
             height: 1.1,
-            color: const Color(0xFF181818),
+            color: isDark ? Colors.white : const Color(0xFF181818),
             letterSpacing: 0.5,
           ),
         ),
@@ -223,12 +229,15 @@ class _HomeViewState extends State<HomeView> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDark ? const Color(0xFF28282E) : Colors.white,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: const Color(0xFFE2E4E8), width: 1.2),
+            border: Border.all(
+              color: isDark ? const Color(0xFF44444E) : const Color(0xFFE2E4E8),
+              width: 1.2,
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -248,7 +257,7 @@ class _HomeViewState extends State<HomeView> {
                   fontSize: 14,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF5A5A5A),
+                  color: isDark ? Colors.white70 : const Color(0xFF5A5A5A),
                 ),
               ),
               const SizedBox(width: 8),

@@ -5,7 +5,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../responsive/responsive.dart';
 
 class ContectView extends StatefulWidget {
-  const ContectView({super.key});
+  final bool isDarkMode;
+
+  const ContectView({
+    super.key,
+    this.isDarkMode = false,
+  });
 
   @override
   State<ContectView> createState() => _ContectViewState();
@@ -91,12 +96,13 @@ class _ContectViewState extends State<ContectView> {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = Responsive.isMobile(context);
+    final bool isDark = widget.isDarkMode;
 
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFFF4F5F7),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF222226) : const Color(0xFFF4F5F7),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       child: Column(
         children: [
@@ -145,7 +151,7 @@ class _ContectViewState extends State<ContectView> {
                               style: GoogleFonts.poppins(
                                 fontSize: isMobile ? 24 : 28,
                                 fontWeight: FontWeight.bold,
-                                color: const Color(0xFF181818),
+                                color: isDark ? Colors.white : const Color(0xFF181818),
                               ),
                             ),
                             Text(
@@ -153,7 +159,7 @@ class _ContectViewState extends State<ContectView> {
                               style: GoogleFonts.poppins(
                                 fontSize: 13.5,
                                 fontStyle: FontStyle.italic,
-                                color: const Color(0xFF777777),
+                                color: isDark ? Colors.white70 : const Color(0xFF777777),
                               ),
                             ),
                           ],
@@ -167,9 +173,9 @@ class _ContectViewState extends State<ContectView> {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildMessageForm(isMobile),
+                              _buildMessageForm(isMobile, isDark),
                               const SizedBox(height: 50),
-                              _buildContactInfoSection(isMobile),
+                              _buildContactInfoSection(isMobile, isDark),
                             ],
                           )
                         : Row(
@@ -177,12 +183,12 @@ class _ContectViewState extends State<ContectView> {
                             children: [
                               Expanded(
                                 flex: 6,
-                                child: _buildMessageForm(isMobile),
+                                child: _buildMessageForm(isMobile, isDark),
                               ),
                               const SizedBox(width: 60),
                               Expanded(
                                 flex: 5,
-                                child: _buildContactInfoSection(isMobile),
+                                child: _buildContactInfoSection(isMobile, isDark),
                               ),
                             ],
                           ),
@@ -190,7 +196,7 @@ class _ContectViewState extends State<ContectView> {
                     const SizedBox(height: 60),
 
                     // Ready to Start Your Project Callout Card
-                    _buildReadyToStartProjectCard(isMobile),
+                    _buildReadyToStartProjectCard(isMobile, isDark),
                   ],
                 ),
               ),
@@ -202,7 +208,7 @@ class _ContectViewState extends State<ContectView> {
           // Full-Width Slate Grey Copyright Footer Bar
           Container(
             width: double.infinity,
-            color: const Color(0xFFB2C0C7),
+            color: isDark ? const Color(0xFF1E262B) : const Color(0xFFB2C0C7),
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Center(
               child: Text(
@@ -210,7 +216,7 @@ class _ContectViewState extends State<ContectView> {
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF37474F),
+                  color: isDark ? const Color(0xFF90A4AE) : const Color(0xFF37474F),
                 ),
               ),
             ),
@@ -220,7 +226,7 @@ class _ContectViewState extends State<ContectView> {
     );
   }
 
-  Widget _buildMessageForm(bool isMobile) {
+  Widget _buildMessageForm(bool isMobile, bool isDark) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -237,6 +243,7 @@ class _ContectViewState extends State<ContectView> {
         _buildFormField(
           controller: _nameController,
           hintText: "Your Name",
+          isDark: isDark,
         ),
         const SizedBox(height: 16),
 
@@ -244,12 +251,14 @@ class _ContectViewState extends State<ContectView> {
           controller: _emailController,
           hintText: "Your Email",
           keyboardType: TextInputType.emailAddress,
+          isDark: isDark,
         ),
         const SizedBox(height: 16),
 
         _buildFormField(
           controller: _subjectController,
           hintText: "Subject",
+          isDark: isDark,
         ),
         const SizedBox(height: 16),
 
@@ -257,6 +266,7 @@ class _ContectViewState extends State<ContectView> {
           controller: _messageController,
           hintText: "Message",
           maxLines: 5,
+          isDark: isDark,
         ),
         const SizedBox(height: 24),
 
@@ -290,14 +300,18 @@ class _ContectViewState extends State<ContectView> {
   Widget _buildFormField({
     required TextEditingController controller,
     required String hintText,
+    required bool isDark,
     int maxLines = 1,
     TextInputType keyboardType = TextInputType.text,
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF9F3),
+        color: isDark ? const Color(0xFF2A2826) : const Color(0xFFFFF9F3),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF888888), width: 1.0),
+        border: Border.all(
+          color: isDark ? const Color(0xFF554433) : const Color(0xFF888888),
+          width: 1.0,
+        ),
       ),
       child: TextFormField(
         controller: controller,
@@ -305,7 +319,7 @@ class _ContectViewState extends State<ContectView> {
         keyboardType: keyboardType,
         style: GoogleFonts.poppins(
           fontSize: 14.5,
-          color: const Color(0xFF181818),
+          color: isDark ? Colors.white : const Color(0xFF181818),
         ),
         decoration: InputDecoration(
           hintText: hintText,
@@ -324,7 +338,7 @@ class _ContectViewState extends State<ContectView> {
     );
   }
 
-  Widget _buildContactInfoSection(bool isMobile) {
+  Widget _buildContactInfoSection(bool isMobile, bool isDark) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -465,15 +479,15 @@ class _ContectViewState extends State<ContectView> {
     );
   }
 
-  Widget _buildReadyToStartProjectCard(bool isMobile) {
+  Widget _buildReadyToStartProjectCard(bool isMobile, bool isDark) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF7ED),
+        color: isDark ? const Color(0xFF2B2219) : const Color(0xFFFFF7ED),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFFFE0B2),
+          color: isDark ? const Color(0xFF4D3823) : const Color(0xFFFFE0B2),
           width: 1.2,
         ),
       ),
@@ -511,7 +525,7 @@ class _ContectViewState extends State<ContectView> {
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 16 : 18,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF181818),
+                    color: isDark ? Colors.white : const Color(0xFF181818),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -519,7 +533,7 @@ class _ContectViewState extends State<ContectView> {
                   "Let's collaborate and bring your ideas to life with cutting-edge Flutter solutions",
                   style: GoogleFonts.poppins(
                     fontSize: isMobile ? 13 : 14,
-                    color: const Color(0xFF666666),
+                    color: isDark ? Colors.white70 : const Color(0xFF666666),
                     fontWeight: FontWeight.w400,
                   ),
                 ),

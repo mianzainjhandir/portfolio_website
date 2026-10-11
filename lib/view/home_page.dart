@@ -27,6 +27,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   final GlobalKey _contactKey = GlobalKey();
 
   int _activeSectionIndex = 0;
+  bool _isDarkMode = false;
 
   @override
   void initState() {
@@ -40,6 +41,12 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
     _scrollController.removeListener(_updateActiveSection);
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _toggleTheme() {
+    setState(() {
+      _isDarkMode = !_isDarkMode;
+    });
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
@@ -164,7 +171,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
 
     return Scaffold(
       key: _globalKey,
-      backgroundColor: Colors.white,
+      backgroundColor: _isDarkMode ? const Color(0xFF1E1E22) : Colors.white,
       endDrawer: isMobile
           ? MyDrawer(scrollController: _scrollController)
           : null,
@@ -185,14 +192,27 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                   controller: _scrollController,
                   child: Column(
                     children: [
-                      HomeView(key: _homeKey),
-                      AboutView(key: _aboutKey),
+                      HomeView(
+                        key: _homeKey,
+                        isDarkMode: _isDarkMode,
+                      ),
+                      AboutView(
+                        key: _aboutKey,
+                        isDarkMode: _isDarkMode,
+                      ),
                       SkillsView(
                         key: _skillsKey,
                         isVisible: _activeSectionIndex >= 2,
+                        isDarkMode: _isDarkMode,
                       ),
-                      ProjectsView(key: _projectsKey),
-                      ContectView(key: _contactKey),
+                      ProjectsView(
+                        key: _projectsKey,
+                        isDarkMode: _isDarkMode,
+                      ),
+                      ContectView(
+                        key: _contactKey,
+                        isDarkMode: _isDarkMode,
+                      ),
                     ],
                   ),
                 ),
@@ -234,9 +254,10 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
       left: showLeftBar ? 0 : -280,
       top: 0,
       bottom: 0,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
         width: 240,
-        color: const Color(0xFFF4F5F7),
+        color: _isDarkMode ? const Color(0xFF25252A) : const Color(0xFFF4F5F7),
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
         child: Column(
           children: [
@@ -248,14 +269,14 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               height: 90,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: _isDarkMode ? const Color(0xFF1E1E22) : Colors.white,
                 border: Border.all(
                   color: const Color(0xFFFFAE34),
                   width: 3.0,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
+                    color: Colors.black.withValues(alpha: 0.2),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -322,7 +343,9 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                               size: 20,
                               color: isSelected
                                   ? Colors.white
-                                  : const Color(0xFF222222),
+                                  : (_isDarkMode
+                                      ? Colors.white
+                                      : const Color(0xFF222222)),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
@@ -334,7 +357,9 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                                   fontWeight: FontWeight.bold,
                                   color: isSelected
                                       ? Colors.white
-                                      : const Color(0xFF222222),
+                                      : (_isDarkMode
+                                          ? Colors.white
+                                          : const Color(0xFF222222)),
                                   letterSpacing: 0.8,
                                 ),
                               ),
@@ -348,15 +373,22 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               ),
             ),
 
-            // Bottom Moon Icon
+            // Bottom Sun / Moon Theme Toggle Icon
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
-                child: Icon(
-                  Icons.nights_stay_rounded,
-                  color: const Color(0xFF181818),
-                  size: 24,
+                padding: const EdgeInsets.only(left: 12.0, bottom: 8.0),
+                child: IconButton(
+                  onPressed: _toggleTheme,
+                  icon: Icon(
+                    _isDarkMode
+                        ? Icons.wb_sunny_rounded
+                        : Icons.nights_stay_rounded,
+                    color: _isDarkMode
+                        ? const Color(0xFFFFAE34)
+                        : const Color(0xFF181818),
+                    size: 24,
+                  ),
                 ),
               ),
             ),
@@ -401,7 +433,9 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                     shape: BoxShape.circle,
                     color: isSelected
                         ? const Color(0xFFFFAE34)
-                        : const Color(0xFF0D0D0D),
+                        : (_isDarkMode
+                            ? const Color(0xFF28282E)
+                            : const Color(0xFF0D0D0D)),
                     border: Border.all(
                       color: Colors.white,
                       width: isSelected ? 2.5 : 1.5,
@@ -428,11 +462,18 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
           );
         }),
         const SizedBox(height: 16),
-        // Theme Toggle Icon
-        Icon(
-          Icons.nights_stay_rounded,
-          color: Colors.grey.shade400,
-          size: isMobile ? 22 : 26,
+        // Right Floating Theme Toggle Icon (Sun / Moon)
+        IconButton(
+          onPressed: _toggleTheme,
+          icon: Icon(
+            _isDarkMode
+                ? Icons.wb_sunny_rounded
+                : Icons.nights_stay_rounded,
+            color: _isDarkMode
+                ? const Color(0xFFFFAE34)
+                : Colors.grey.shade400,
+            size: isMobile ? 22 : 26,
+          ),
         ),
       ],
     );
