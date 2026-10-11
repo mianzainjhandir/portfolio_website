@@ -11,9 +11,23 @@ class ContectView extends StatefulWidget {
 }
 
 class _ContectViewState extends State<ContectView> {
-  final String _zainPhoneNumber = "+923234248524";
-  final String _zainEmail = "mianzainjhandir@gmail.com";
+  final String _zainPhoneNumber = "+92 323 4248524";
+  final String _zainEmail = "mianzainjh@gmail.com";
   final String _githubUrl = "https://github.com/mianzainjhandir";
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _subjectController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _subjectController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
 
   Future<void> _launchUrl(String urlString) async {
     final Uri uri = Uri.parse(urlString);
@@ -47,22 +61,29 @@ class _ContectViewState extends State<ContectView> {
     }
   }
 
-  Future<void> _launchEmail() async {
-    final Uri emailUri = Uri(
+  Future<void> _sendMessage() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final subject = _subjectController.text.trim().isEmpty
+        ? "Project Inquiry from Portfolio"
+        : _subjectController.text.trim();
+    final message = _messageController.text.trim();
+
+    final bodyText = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+    final Uri mailUri = Uri(
       scheme: 'mailto',
       path: _zainEmail,
-      query: Uri.encodeFull(
-          'subject=Project Inquiry&body=Hello Zain, I would like to discuss a Flutter app project.'),
+      query: Uri.encodeFull('subject=$subject&body=$bodyText'),
     );
 
     try {
-      if (await canLaunchUrl(emailUri)) {
-        await launchUrl(emailUri);
+      if (await canLaunchUrl(mailUri)) {
+        await launchUrl(mailUri);
       } else {
-        await _launchUrl("mailto:$_zainEmail");
+        await _launchWhatsApp();
       }
     } catch (e) {
-      debugPrint("Could not launch Email: $e");
+      debugPrint("Error sending message: $e");
     }
   }
 
@@ -135,78 +156,34 @@ class _ContectViewState extends State<ContectView> {
                   ),
                 ],
               ),
-              const SizedBox(height: 36),
+              const SizedBox(height: 40),
 
-              // Contact Information Cards Grid
+              // Main Form & Contact Info Row / Column
               isMobile
                   ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildContactCard(
-                          icon: Icons.chat_bubble_outline_rounded,
-                          title: "WhatsApp Chat",
-                          value: "+92 323 4248524",
-                          buttonLabel: "Message Me",
-                          onTap: _launchWhatsApp,
-                          isMobile: isMobile,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildContactCard(
-                          icon: Icons.email_outlined,
-                          title: "Email Address",
-                          value: _zainEmail,
-                          buttonLabel: "Send Email",
-                          onTap: _launchEmail,
-                          isMobile: isMobile,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildContactCard(
-                          icon: Icons.code_rounded,
-                          title: "GitHub Profile",
-                          value: "mianzainjhandir",
-                          buttonLabel: "Visit Profile",
-                          onTap: () => _launchUrl(_githubUrl),
-                          isMobile: isMobile,
-                        ),
+                        _buildMessageForm(isMobile),
+                        const SizedBox(height: 50),
+                        _buildContactInfoSection(isMobile),
                       ],
                     )
                   : Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          child: _buildContactCard(
-                            icon: Icons.chat_bubble_outline_rounded,
-                            title: "WhatsApp Chat",
-                            value: "+92 323 4248524",
-                            buttonLabel: "Message Me",
-                            onTap: _launchWhatsApp,
-                            isMobile: isMobile,
-                          ),
+                          flex: 6,
+                          child: _buildMessageForm(isMobile),
                         ),
-                        const SizedBox(width: 24),
+                        const SizedBox(width: 60),
                         Expanded(
-                          child: _buildContactCard(
-                            icon: Icons.email_outlined,
-                            title: "Email Address",
-                            value: _zainEmail,
-                            buttonLabel: "Send Email",
-                            onTap: _launchEmail,
-                            isMobile: isMobile,
-                          ),
-                        ),
-                        const SizedBox(width: 24),
-                        Expanded(
-                          child: _buildContactCard(
-                            icon: Icons.code_rounded,
-                            title: "GitHub Profile",
-                            value: "mianzainjhandir",
-                            buttonLabel: "Visit Profile",
-                            onTap: () => _launchUrl(_githubUrl),
-                            isMobile: isMobile,
-                          ),
+                          flex: 5,
+                          child: _buildContactInfoSection(isMobile),
                         ),
                       ],
                     ),
 
-              const SizedBox(height: 50),
+              const SizedBox(height: 60),
 
               // Bottom Footer Copyright Bar
               Center(
@@ -238,95 +215,250 @@ class _ContectViewState extends State<ContectView> {
     );
   }
 
-  Widget _buildContactCard({
-    required IconData icon,
-    required String title,
-    required String value,
-    required String buttonLabel,
-    required VoidCallback onTap,
-    required bool isMobile,
+  Widget _buildMessageForm(bool isMobile) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Send me a message",
+          style: GoogleFonts.poppins(
+            fontSize: isMobile ? 20 : 22,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFFFFAE34),
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        _buildFormField(
+          controller: _nameController,
+          hintText: "Your Name",
+        ),
+        const SizedBox(height: 16),
+
+        _buildFormField(
+          controller: _emailController,
+          hintText: "Your Email",
+          keyboardType: TextInputType.emailAddress,
+        ),
+        const SizedBox(height: 16),
+
+        _buildFormField(
+          controller: _subjectController,
+          hintText: "Subject",
+        ),
+        const SizedBox(height: 16),
+
+        _buildFormField(
+          controller: _messageController,
+          hintText: "Message",
+          maxLines: 5,
+        ),
+        const SizedBox(height: 24),
+
+        ElevatedButton(
+          onPressed: _sendMessage,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFFFAE34),
+            elevation: 4,
+            shadowColor: const Color(0xFFFFAE34).withValues(alpha: 0.4),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 32,
+              vertical: 16,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          child: Text(
+            "Send Message",
+            style: GoogleFonts.poppins(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFormField({
+    required TextEditingController controller,
+    required String hintText,
+    int maxLines = 1,
+    TextInputType keyboardType = TextInputType.text,
   }) {
     return Container(
-      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            spreadRadius: 1,
-            offset: const Offset(0, 6),
+        color: const Color(0xFFFFF9F3),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF888888), width: 1.0),
+      ),
+      child: TextFormField(
+        controller: controller,
+        maxLines: maxLines,
+        keyboardType: keyboardType,
+        style: GoogleFonts.poppins(
+          fontSize: 14.5,
+          color: const Color(0xFF181818),
+        ),
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: GoogleFonts.poppins(
+            fontSize: 14.5,
+            color: const Color(0xFFFFAE34),
+            fontWeight: FontWeight.w500,
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContactInfoSection(bool isMobile) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Contact Information Header & List
+        Text(
+          "Contact Information",
+          style: GoogleFonts.poppins(
+            fontSize: isMobile ? 20 : 22,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFFFFAE34),
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        _buildContactInfoRow(
+          icon: Icons.location_on_rounded,
+          text: "Vehari, Pakistan",
+          onTap: () {},
+        ),
+        const SizedBox(height: 20),
+
+        _buildContactInfoRow(
+          icon: Icons.phone_rounded,
+          text: _zainPhoneNumber,
+          onTap: _launchWhatsApp,
+        ),
+        const SizedBox(height: 20),
+
+        _buildContactInfoRow(
+          icon: Icons.email_rounded,
+          text: _zainEmail,
+          onTap: () => _launchUrl("mailto:$_zainEmail"),
+        ),
+        const SizedBox(height: 36),
+
+        // Follow Me Header & Social Icons
+        Text(
+          "Follow Me",
+          style: GoogleFonts.poppins(
+            fontSize: isMobile ? 20 : 22,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFFFFAE34),
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        Row(
+          children: [
+            _buildSocialIconButton(
+              icon: Icons.work_rounded,
+              tooltip: "LinkedIn",
+              onTap: () => _launchUrl("https://linkedin.com"),
+            ),
+            const SizedBox(width: 14),
+            _buildSocialIconButton(
+              icon: Icons.code_rounded,
+              tooltip: "GitHub",
+              onTap: () => _launchUrl(_githubUrl),
+            ),
+            const SizedBox(width: 14),
+            _buildSocialIconButton(
+              icon: Icons.flutter_dash_rounded,
+              tooltip: "Twitter",
+              onTap: () => _launchUrl("https://twitter.com"),
+            ),
+            const SizedBox(width: 14),
+            _buildSocialIconButton(
+              icon: Icons.facebook_rounded,
+              tooltip: "Facebook",
+              onTap: () => _launchUrl("https://facebook.com"),
+            ),
+            const SizedBox(width: 14),
+            _buildSocialIconButton(
+              icon: Icons.camera_alt_rounded,
+              tooltip: "Instagram",
+              onTap: () => _launchUrl("https://instagram.com"),
+            ),
+            const SizedBox(width: 14),
+            _buildSocialIconButton(
+              icon: Icons.play_circle_fill_rounded,
+              tooltip: "YouTube",
+              onTap: () => _launchUrl("https://youtube.com"),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContactInfoRow({
+    required IconData icon,
+    required String text,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: const Color(0xFFFFAE34),
+            size: 24,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              text,
+              style: GoogleFonts.poppins(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFFFFAE34),
+              ),
+            ),
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFFF4E5),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(
-              icon,
-              color: const Color(0xFFFFAE34),
-              size: 26,
-            ),
+    );
+  }
+
+  Widget _buildSocialIconButton({
+    required IconData icon,
+    required String tooltip,
+    required VoidCallback onTap,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Icon(
+            icon,
+            color: const Color(0xFFFFAE34),
+            size: 22,
           ),
-          const SizedBox(height: 18),
-          Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF888888),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF181818),
-            ),
-          ),
-          const SizedBox(height: 20),
-          InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFAE34),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    buttonLabel,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Icon(
-                    Icons.arrow_forward_rounded,
-                    size: 16,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
