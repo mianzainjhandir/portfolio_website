@@ -24,6 +24,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
+  final GlobalKey _contactKey = GlobalKey();
 
   int _activeSectionIndex = 0;
 
@@ -51,6 +52,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
     double aboutOffset = MediaQuery.of(context).size.height * 0.4;
     double skillsOffset = MediaQuery.of(context).size.height * 1.5;
     double projectsOffset = MediaQuery.of(context).size.height * 2.5;
+    double contactOffset = MediaQuery.of(context).size.height * 3.5;
 
     final RenderBox? aboutBox =
         _aboutKey.currentContext?.findRenderObject() as RenderBox?;
@@ -73,8 +75,17 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
       projectsOffset = widget._scrollController.offset + pos.dy - 200;
     }
 
+    final RenderBox? contactBox =
+        _contactKey.currentContext?.findRenderObject() as RenderBox?;
+    if (contactBox != null) {
+      final pos = contactBox.localToGlobal(Offset.zero);
+      contactOffset = widget._scrollController.offset + pos.dy - 200;
+    }
+
     int newIndex = 0;
-    if (offset >= projectsOffset) {
+    if (offset >= contactOffset) {
+      newIndex = 4; // Contact
+    } else if (offset >= projectsOffset) {
       newIndex = 3; // Projects
     } else if (offset >= skillsOffset) {
       newIndex = 2; // Skills
@@ -126,6 +137,15 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
       } else {
         targetOffset = MediaQuery.of(context).size.height * 2.8;
       }
+    } else if (index == 4) {
+      final RenderBox? renderBox =
+          _contactKey.currentContext?.findRenderObject() as RenderBox?;
+      if (renderBox != null) {
+        final position = renderBox.localToGlobal(Offset.zero);
+        targetOffset = widget._scrollController.offset + position.dy;
+      } else {
+        targetOffset = MediaQuery.of(context).size.height * 3.8;
+      }
     }
 
     widget._scrollController.animateTo(
@@ -170,7 +190,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
                         isVisible: _activeSectionIndex >= 2,
                       ),
                       ProjectsView(key: _projectsKey),
-
+                      ContectView(key: _contactKey),
                     ],
                   ),
                 ),
