@@ -77,7 +77,27 @@ class _ContectViewState extends State<ContectView> {
         : _subjectController.text.trim();
     final message = _messageController.text.trim();
 
-    final bodyText = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+    if (name.isEmpty && message.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Please fill in your name and message.",
+            style: GoogleFonts.poppins(color: Colors.white),
+          ),
+          backgroundColor: const Color(0xFFE53935),
+        ),
+      );
+      return;
+    }
+
+    final bodyText =
+        "Hello Zain,\n\nName: $name\nEmail: $email\n\nMessage:\n$message";
+
+    // Direct Gmail Web Composer URL
+    final String gmailWebUrl =
+        "https://mail.google.com/mail/?view=cm&fs=1&to=$_zainEmail&su=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(bodyText)}";
+
+    // Standard mailto fallback
     final Uri mailUri = Uri(
       scheme: 'mailto',
       path: _zainEmail,
@@ -85,13 +105,36 @@ class _ContectViewState extends State<ContectView> {
     );
 
     try {
-      if (await canLaunchUrl(mailUri)) {
+      final Uri gmailUri = Uri.parse(gmailWebUrl);
+      if (await canLaunchUrl(gmailUri)) {
+        await launchUrl(
+          gmailUri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else if (await canLaunchUrl(mailUri)) {
         await launchUrl(mailUri);
       } else {
         await _launchWhatsApp();
       }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Opening Gmail composer to send your message to $_zainEmail!",
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            backgroundColor: const Color(0xFF4CAF50),
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
     } catch (e) {
-      debugPrint("Error sending message: $e");
+      debugPrint("Error launching email composer: $e");
+      _launchWhatsApp();
     }
   }
 
@@ -372,7 +415,7 @@ class _ContectViewState extends State<ContectView> {
         _buildContactInfoRow(
           icon: Icons.email_rounded,
           text: _zainEmail,
-          onTap: () => _launchUrl("mailto:$_zainEmail"),
+          onTap: () => _launchUrl("https://mail.google.com/mail/?view=cm&fs=1&to=$_zainEmail"),
         ),
         const SizedBox(height: 36),
 
