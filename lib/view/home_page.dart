@@ -10,16 +10,16 @@ import 'skills_view.dart';
 import 'projects_view.dart';
 
 class DeveloperPortfolio extends StatefulWidget {
-  DeveloperPortfolio({super.key});
-
-  final ScrollController _scrollController = ScrollController();
-  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+  const DeveloperPortfolio({super.key});
 
   @override
   State<DeveloperPortfolio> createState() => _DeveloperPortfolioState();
 }
 
 class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
+  late final ScrollController _scrollController;
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
@@ -31,12 +31,14 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   @override
   void initState() {
     super.initState();
-    widget._scrollController.addListener(_updateActiveSection);
+    _scrollController = ScrollController();
+    _scrollController.addListener(_updateActiveSection);
   }
 
   @override
   void dispose() {
-    widget._scrollController.removeListener(_updateActiveSection);
+    _scrollController.removeListener(_updateActiveSection);
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -46,8 +48,8 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
   }
 
   void _updateActiveSection() {
-    if (!widget._scrollController.hasClients) return;
-    final double offset = widget._scrollController.offset;
+    if (!_scrollController.hasClients) return;
+    final double offset = _scrollController.offset;
 
     double aboutOffset = MediaQuery.of(context).size.height * 0.4;
     double skillsOffset = MediaQuery.of(context).size.height * 1.5;
@@ -58,28 +60,28 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
         _aboutKey.currentContext?.findRenderObject() as RenderBox?;
     if (aboutBox != null) {
       final pos = aboutBox.localToGlobal(Offset.zero);
-      aboutOffset = widget._scrollController.offset + pos.dy - 200;
+      aboutOffset = _scrollController.offset + pos.dy - 200;
     }
 
     final RenderBox? skillsBox =
         _skillsKey.currentContext?.findRenderObject() as RenderBox?;
     if (skillsBox != null) {
       final pos = skillsBox.localToGlobal(Offset.zero);
-      skillsOffset = widget._scrollController.offset + pos.dy - 200;
+      skillsOffset = _scrollController.offset + pos.dy - 200;
     }
 
     final RenderBox? projectsBox =
         _projectsKey.currentContext?.findRenderObject() as RenderBox?;
     if (projectsBox != null) {
       final pos = projectsBox.localToGlobal(Offset.zero);
-      projectsOffset = widget._scrollController.offset + pos.dy - 200;
+      projectsOffset = _scrollController.offset + pos.dy - 200;
     }
 
     final RenderBox? contactBox =
         _contactKey.currentContext?.findRenderObject() as RenderBox?;
     if (contactBox != null) {
       final pos = contactBox.localToGlobal(Offset.zero);
-      contactOffset = widget._scrollController.offset + pos.dy - 200;
+      contactOffset = _scrollController.offset + pos.dy - 200;
     }
 
     int newIndex = 0;
@@ -115,7 +117,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
           _aboutKey.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox != null) {
         final position = renderBox.localToGlobal(Offset.zero);
-        targetOffset = widget._scrollController.offset + position.dy;
+        targetOffset = _scrollController.offset + position.dy;
       } else {
         targetOffset = MediaQuery.of(context).size.height;
       }
@@ -124,7 +126,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
           _skillsKey.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox != null) {
         final position = renderBox.localToGlobal(Offset.zero);
-        targetOffset = widget._scrollController.offset + position.dy;
+        targetOffset = _scrollController.offset + position.dy;
       } else {
         targetOffset = MediaQuery.of(context).size.height * 1.8;
       }
@@ -133,7 +135,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
           _projectsKey.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox != null) {
         final position = renderBox.localToGlobal(Offset.zero);
-        targetOffset = widget._scrollController.offset + position.dy;
+        targetOffset = _scrollController.offset + position.dy;
       } else {
         targetOffset = MediaQuery.of(context).size.height * 2.8;
       }
@@ -142,13 +144,13 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
           _contactKey.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox != null) {
         final position = renderBox.localToGlobal(Offset.zero);
-        targetOffset = widget._scrollController.offset + position.dy;
+        targetOffset = _scrollController.offset + position.dy;
       } else {
         targetOffset = MediaQuery.of(context).size.height * 3.8;
       }
     }
 
-    widget._scrollController.animateTo(
+    _scrollController.animateTo(
       targetOffset,
       duration: const Duration(milliseconds: 600),
       curve: Curves.easeInOut,
@@ -161,10 +163,10 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
     final bool showLeftBar = !isMobile && _activeSectionIndex > 0;
 
     return Scaffold(
-      key: widget._globalKey,
+      key: _globalKey,
       backgroundColor: Colors.white,
       endDrawer: isMobile
-          ? MyDrawer(scrollController: widget._scrollController)
+          ? MyDrawer(scrollController: _scrollController)
           : null,
       body: SafeArea(
         child: Stack(
@@ -180,7 +182,7 @@ class _DeveloperPortfolioState extends State<DeveloperPortfolio> {
               child: NotificationListener<ScrollNotification>(
                 onNotification: _handleScrollNotification,
                 child: SingleChildScrollView(
-                  controller: widget._scrollController,
+                  controller: _scrollController,
                   child: Column(
                     children: [
                       HomeView(key: _homeKey),
