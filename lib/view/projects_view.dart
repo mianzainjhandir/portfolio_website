@@ -303,6 +303,11 @@ class _ProjectsViewState extends State<ProjectsView> {
                     ),
                   ),
                 ),
+
+              const SizedBox(height: 50),
+
+              // Explore More Projects Banner Card
+              _buildExploreMoreGitHubCard(isMobile),
             ],
           ),
         ),
@@ -454,6 +459,184 @@ class _ProjectsViewState extends State<ProjectsView> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildExploreMoreGitHubCard(bool isMobile) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF7ED),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFFFE0B2),
+          width: 1.2,
+        ),
+      ),
+      child: isMobile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0xFFFFAE34),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFFAE34)
+                                .withValues(alpha: 0.35),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.code_rounded,
+                        color: Colors.white,
+                        size: 26,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        "Explore More Projects",
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF181818),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Visit my GitHub to discover all my Flutter projects, contributions, and open-source work",
+                  style: GoogleFonts.poppins(
+                    fontSize: 13.5,
+                    color: const Color(0xFF666666),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                ElevatedButton.icon(
+                  onPressed: () => _launchUrl(
+                      "https://github.com/mianzainjhandir?tab=repositories"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFFAE34),
+                    elevation: 3,
+                    shadowColor: const Color(0xFFFFAE34).withValues(alpha: 0.4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 14,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  icon: const Icon(
+                    Icons.open_in_new_rounded,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                  label: Text(
+                    "View GitHub",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: const Color(0xFFFFAE34),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFFFFAE34).withValues(alpha: 0.35),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.code_rounded,
+                    color: Colors.white,
+                    size: 26,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Explore More Projects",
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF181818),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "Visit my GitHub to discover all my Flutter projects, contributions, and open-source work",
+                        style: GoogleFonts.poppins(
+                          fontSize: 13.5,
+                          color: const Color(0xFF666666),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton.icon(
+                  onPressed: () => _launchUrl(
+                      "https://github.com/mianzainjhandir?tab=repositories"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFFAE34),
+                    elevation: 4,
+                    shadowColor: const Color(0xFFFFAE34).withValues(alpha: 0.4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 14,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  icon: const Icon(
+                    Icons.open_in_new_rounded,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                  label: Text(
+                    "View GitHub",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
