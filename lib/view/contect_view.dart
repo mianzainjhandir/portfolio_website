@@ -440,7 +440,7 @@ class _ContectViewState extends State<ContectView> {
   }
 
   Widget _buildSocialIconButton({
-    required IconData icon,
+    required dynamic icon,
     required String tooltip,
     required VoidCallback onTap,
   }) {
@@ -451,8 +451,8 @@ class _ContectViewState extends State<ContectView> {
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: FaIcon(
-            icon,
+          child: Icon(
+            icon as IconData,
             color: const Color(0xFFFFAE34),
             size: 22,
           ),
