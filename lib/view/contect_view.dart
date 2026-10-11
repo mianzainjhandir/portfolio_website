@@ -98,120 +98,124 @@ class _ContectViewState extends State<ContectView> {
         color: Color(0xFFF4F5F7),
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
       ),
-      padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 20.0 : 80.0,
-        vertical: isMobile ? 40.0 : 60.0,
-      ),
-      child: Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 1100),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header Row: Get In Touch
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: const Color(0xFFFFAE34),
-                      boxShadow: [
-                        BoxShadow(
-                          color:
-                              const Color(0xFFFFAE34).withValues(alpha: 0.35),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.contact_mail_rounded,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Get In Touch",
-                        style: GoogleFonts.poppins(
-                          fontSize: isMobile ? 24 : 28,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF181818),
-                        ),
-                      ),
-                      Text(
-                        "Let's discuss your next Flutter project",
-                        style: GoogleFonts.poppins(
-                          fontSize: 13.5,
-                          fontStyle: FontStyle.italic,
-                          color: const Color(0xFF777777),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40),
-
-              // Main Form & Contact Info Row / Column
-              isMobile
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildMessageForm(isMobile),
-                        const SizedBox(height: 50),
-                        _buildContactInfoSection(isMobile),
-                      ],
-                    )
-                  : Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: _buildMessageForm(isMobile),
-                        ),
-                        const SizedBox(width: 60),
-                        Expanded(
-                          flex: 5,
-                          child: _buildContactInfoSection(isMobile),
-                        ),
-                      ],
-                    ),
-
-              const SizedBox(height: 60),
-
-              // Bottom Footer Copyright Bar
-              Center(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 20.0 : 80.0,
+              vertical: isMobile ? 40.0 : 60.0,
+            ),
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 1100),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Designed & Developed with Flutter by Zain Jhandir",
-                      style: GoogleFonts.poppins(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF666666),
-                      ),
+                    // Header Row: Get In Touch
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: const Color(0xFFFFAE34),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFFFFAE34)
+                                    .withValues(alpha: 0.35),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.contact_mail_rounded,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Get In Touch",
+                              style: GoogleFonts.poppins(
+                                fontSize: isMobile ? 24 : 28,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF181818),
+                              ),
+                            ),
+                            Text(
+                              "Let's discuss your next Flutter project",
+                              style: GoogleFonts.poppins(
+                                fontSize: 13.5,
+                                fontStyle: FontStyle.italic,
+                                color: const Color(0xFF777777),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      "© ${DateTime.now().year} All Rights Reserved",
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        color: const Color(0xFF999999),
-                      ),
-                    ),
+                    const SizedBox(height: 40),
+
+                    // Main Form & Contact Info Row / Column
+                    isMobile
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildMessageForm(isMobile),
+                              const SizedBox(height: 50),
+                              _buildContactInfoSection(isMobile),
+                            ],
+                          )
+                        : Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 6,
+                                child: _buildMessageForm(isMobile),
+                              ),
+                              const SizedBox(width: 60),
+                              Expanded(
+                                flex: 5,
+                                child: _buildContactInfoSection(isMobile),
+                              ),
+                            ],
+                          ),
+
+                    const SizedBox(height: 60),
+
+                    // Ready to Start Your Project Callout Card
+                    _buildReadyToStartProjectCard(isMobile),
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+
+          const SizedBox(height: 20),
+
+          // Full-Width Slate Grey Copyright Footer Bar
+          Container(
+            width: double.infinity,
+            color: const Color(0xFFB2C0C7),
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+              child: Text(
+                "© ${DateTime.now().year} Zain Programmer. All rights reserved.",
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF37474F),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -457,6 +461,72 @@ class _ContectViewState extends State<ContectView> {
             size: 22,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildReadyToStartProjectCard(bool isMobile) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(isMobile ? 20.0 : 28.0),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF7ED),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFFFE0B2),
+          width: 1.2,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: const Color(0xFFFFAE34),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFFFAE34).withValues(alpha: 0.35),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.rocket_launch_rounded,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Ready to Start Your Project?",
+                  style: GoogleFonts.poppins(
+                    fontSize: isMobile ? 16 : 18,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF181818),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "Let's collaborate and bring your ideas to life with cutting-edge Flutter solutions",
+                  style: GoogleFonts.poppins(
+                    fontSize: isMobile ? 13 : 14,
+                    color: const Color(0xFF666666),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
