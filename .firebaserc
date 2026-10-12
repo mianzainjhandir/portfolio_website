@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "eminent-helix-458210-m9"
+  },
+  "targets": {
+    "eminent-helix-458210-m9": {
+      "hosting": {
+        "zainportfolio45": [
+          "zainportfolio45"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
