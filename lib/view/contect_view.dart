@@ -22,6 +22,7 @@ class _ContectViewState extends State<ContectView> {
   final String _githubUrl = "https://github.com/mianzainjhandir";
   final String _instagramUrl = "https://www.instagram.com/mianzainjhandir045/";
   final String _facebookUrl = "https://web.facebook.com/profile.php?id=61556802677451";
+  final String _linkedinUrl = "https://www.linkedin.com/in/zain-ul-abedine-6a31a1348";
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -437,7 +438,7 @@ class _ContectViewState extends State<ContectView> {
             _buildSocialIconButton(
               icon: FontAwesomeIcons.linkedin,
               tooltip: "LinkedIn",
-              onTap: () => _launchUrl("https://www.linkedin.com/in/mianzainjhandir"),
+              onTap: () => _launchUrl(_linkedinUrl),
             ),
             _buildSocialIconButton(
               icon: FontAwesomeIcons.github,
